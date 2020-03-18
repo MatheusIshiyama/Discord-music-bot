@@ -1,14 +1,11 @@
 const Discord = require('discord.js');
-const config = require("./config.json");
 const ytdl = require('ytdl-core');
 const Youtube = require('simple-youtube-api');
-const {YOUTUBE_TOKEN, DISCORD_TOKEN} = require('dotenv').config();
+require('dotenv').config();
 
 const client = new Discord.Client();
 
-//const youtube = new Youtube(config.youtubetoken);    
 const youtube = new Youtube(process.env.YOUTUBE_TOKEN);
-
 
 const queue = [];
 
@@ -36,7 +33,7 @@ client.on("message", async message => {
     if(message.channel.type === 'dm') return;
     if(!message.guild) return;
 
-    const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
+    const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/g);
     const comando = args.shift().toLowerCase();
     let comandoMusic = args.shift();
     
