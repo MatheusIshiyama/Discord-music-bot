@@ -2,17 +2,13 @@ const Discord = require('discord.js');
 const config = require("./config.json");
 const ytdl = require('ytdl-core');
 const Youtube = require('simple-youtube-api');
+const {YOUTUBE_TOKEN, DISCORD_TOKEN} = require('dotenv').config();
 
 const client = new Discord.Client();
 
-let YOUTUBE_TOKEN = process.env.YOUTUBE_TOKEN;
-let DISCORD_TOKEN = process.env.DISCORD_TOKEN;
+//const youtube = new Youtube(config.youtubetoken);    
+const youtube = new Youtube(process.env.YOUTUBE_TOKEN);
 
-try {
-    const youtube = new Youtube(config.youtubetoken);    
-} catch (error) {
-    const youtube = new Youtube(YOUTUBE_TOKEN);
-}
 
 const queue = [];
 
@@ -306,8 +302,6 @@ function musicPlayerLoopQueue(message, connection) {
     });
 }
 
-try {
-    client.login(config.token); //* ligar o bot    
-} catch (error) {
-    client.login(DISCORD_TOKEN);    
-}
+//client.login(config.token); //* ligar o bot    
+
+client.login(process.env.DISCORD_TOKEN);    
