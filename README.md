@@ -34,6 +34,7 @@ Entre no [Google Cloud Platform](https://cloud.google.com), faça login pela goo
 ## Iniciando o projeto
 
 Inicie o projeto com o comando pelo cmd em uma pasta vazia e instale as dependências
+Para navegar entre pastas use o comando cd <nome_da_pasta>
 
      npm init -y
 
@@ -66,6 +67,8 @@ client.login(config.discordToken);
 ```
 
 Com isso, configuramos as keys.
+
+No arquivo package.json, na linha ["Main":] coloque na frente o nome do arquivo .js (ex. "Main": bot.js)
 
 ## Eventos iniciais do bot
 
@@ -146,3 +149,56 @@ client.on("message", message => {
 });
 
 ```
+
+## Subindo o bot no Heroku
+
+### Config Heroku
+
+Vá no site do [Heroku](heroku.com) e faça login, crie um novo app, assim que carregar tudo, vamos configurar o heroku, vá em settings, esse projeto em específico precisa do windows-build-tools, e para isso precisaremos ter esse link https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git para buildar nosso bot, vá em "Buildpacks" e adicione esse link para conseguirmos buildar nosso bot, adicione também o node.js, em settings também, iremos utilizar de variáveis, procurando por "Config vars", dentro criaremos as variáveis discordToken, youtubeToken e o prefix, onde estaremos colocando as mesmas keys que temos no config.json
+
+### Config Bot
+
+No nosso arquivo .js precisaremos adicionar prefixos para o discordToken, youtubeToken e o prefix, que seria o "process.env." (ex. process.env.discordToken).
+Ex.
+
+```javascript
+const youtube = new Youtube(process.env.youtubeToken);
+
+client.login(process.env.discordToken);
+```
+
+precisaremos criar um arquivo chamado Procfile, para enviar comandos para o heroku e dentro dele terá somente:
+
+```Procfile
+worker: node bot.js
+```
+
+bot.js é o exemplo que utilizamos, mas tem que ser o nome do seu arquivo .js
+
+precisaremos criar um arquivo chamado .gitignore, no qual selecionaremos quais arquivos não serão enviados para o github, no arquivo teremos:
+
+```gitignore
+node-modules/
+package-lock.json
+config.json
+```
+Após isso, teremos que configurar o git
+
+### Config Github
+
+No [Github](github.com) faça login e crie um repositório limpo (não precisa adicionar o README.md)
+Vá no cmd, entre na pasta do bot, e execute esses comandos, lembre-se de instalar o git para executar esses comandos
+
+```
+git init
+git add .
+git commit -m "subindo projeto para o git"
+git remote add origin <link_repositorio>
+git push origin master
+```
+
+### Linkar github com heroku e ligar o bot
+
+Após configurar tudo, precisaremos linkar o repositório do git com a nossa aplicação no heroku, vá no [heroku](heroku.com) e entre em deploy, selecione Github, conect sua conta do git e selecione o repositório e habilite o automatic deploy, para quando você fizer uma alteração no repositório git, o heroku recompilar o arquivo.
+
+Depois disso tudo, vá em Overview e procure por Configure Dynos, lá ligaremos o worker e desligaremos o web, e assim nosso bot estará online, basta conferir no console log, que fica em "more", no canto superior direito "view logs".
