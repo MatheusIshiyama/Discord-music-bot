@@ -81,7 +81,7 @@ client.on("message", async message => {
             let video = await youtube.getVideo(comandoMusic);
             message.reply(`O video foi encontrado: ${video.title}`);
             queue.push(comandoMusic);
-            if(queue.length === 1) {
+            if(queue.length >= 1) {
                 musicPlayer(message, connection);
             }
         } catch (error) {
@@ -119,7 +119,7 @@ client.on("message", async message => {
                             videoFounded = await youtube.getVideoByID(videoSearched[2].id);
                             queue.push(videoSearched[2].url);
                         }
-                        if(queue.length === 1) {
+                        if(queue.length >= 1) {
                             musicPlayer(message, connection);
                         }
                     })
