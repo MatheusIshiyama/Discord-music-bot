@@ -4,7 +4,12 @@ const ytdl = require('ytdl-core');
 const Youtube = require('simple-youtube-api');
 
 const client = new Discord.Client();
+
+let (config.youtubetoken) = process.env.YOUTUBE_TOKEN;
+let (config.token) = process.env.DISCORD_TOKEN;
+
 const youtube = new Youtube(config.youtubetoken);
+
 
 const queue = [];
 
