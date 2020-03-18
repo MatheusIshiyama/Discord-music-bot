@@ -60,9 +60,9 @@ No arquivo .js vamos configurar as keys
 const config = require("config.json");
 const client = new Discord.Client();
 const Youtube = require("simple-youtube-api");
-const youtube = new Youtube(config.KEY_YOUTUBE);
+const youtube = new Youtube(config.youtubeToken);
 
-client.login(config.KEY_DISCORD);
+client.login(config.discordToken);
 ```
 
 Com isso, configuramos as keys.
@@ -84,3 +84,65 @@ client.on("ready", () +> { //quando o bot iniciar, ele vai fazer...
 ```
 
 ele da o console.log das informações de usuários e canais e configura para o bot ficar em modo(type) transmissão, mas você pode alterar o type(0 = jogando; 1 = transmitindo; 2 = Ouvindo; 3 = Assistindo)
+
+### Executar uma função
+
+```javascript
+client.on("message", message => {
+     if(message.author.bot) return;
+     if(message.channel.type === 'dm') return;
+     if(!message.guild) return;
+
+     // para ler o comando
+     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
+     const comand = args.shift().toLowerCase();
+
+     // executar algum comando
+     if(comand === "teste") {
+          message.channel.send("Testando...");
+          message.edit("Funcionando perfeitamente");
+     }
+
+     // proximo comando
+     else if(comando === "beep") {
+          message.reply("boop");
+     }
+})
+
+```
+
+### Exemplo de código
+
+```javascript
+const config = require("config.json");
+const client = new Discord.Client();
+const Youtube = require("simple-youtube-api");
+const youtube = new Youtube(config.youtubeToken);
+
+client.on("ready", () +> { //quando o bot iniciar, ele vai fazer...
+     console.log(`Bot foi iniciado, com ${client.users.cache.size} usuários, em ${client.channels.cache.size} canais, em ${client.guilds.cache.size} servidores.`);
+     client.user.setPresence( {activity: { name: `twitch.tv/bravanzin para ${client.users.cache.size} viewers`, type: 1, url: 'https://twitch.tv/bravanzin' }} );
+});
+
+client.on("message", message => {
+     if(message.author.bot) return;
+     if(message.channel.type === 'dm') return;
+     if(!message.guild) return;
+
+     // para ler o comando
+     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
+     const comand = args.shift().toLowerCase();
+
+     // executar algum comando
+     if(comand === "teste") {
+          message.channel.send("Testando...");
+          message.edit("Funcionando perfeitamente");
+     }
+
+     // proximo comando
+     else if(comando === "beep") {
+          message.reply("boop");
+     }
+});
+
+```
