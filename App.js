@@ -5,11 +5,14 @@ const Youtube = require('simple-youtube-api');
 
 const client = new Discord.Client();
 
-let (config.youtubetoken) = process.env.YOUTUBE_TOKEN;
-let (config.token) = process.env.DISCORD_TOKEN;
+let YOUTUBE_TOKEN = process.env.YOUTUBE_TOKEN;
+let DISCORD_TOKEN = process.env.DISCORD_TOKEN;
 
-const youtube = new Youtube(config.youtubetoken);
-
+try {
+    const youtube = new Youtube(config.youtubetoken);    
+} catch (error) {
+    const youtube = new Youtube(YOUTUBE_TOKEN);
+}
 
 const queue = [];
 
@@ -303,4 +306,8 @@ function musicPlayerLoopQueue(message, connection) {
     });
 }
 
-client.login(config.token); //* ligar o bot
+try {
+    client.login(config.token); //* ligar o bot    
+} catch (error) {
+    client.login(DISCORD_TOKEN);    
+}
