@@ -8,7 +8,6 @@ const youtube = new Youtube(process.env.YOUTUBE_TOKEN);
 
 const queue = [];
 
-
 //* quando o bot ligar
 client.on("ready", () => {
     console.log(`Bot foi iniciado, com ${client.users.cache.size} usuários, em ${client.channels.cache.size} canais, em ${client.guilds.cache.size} servidores.`);
@@ -49,9 +48,7 @@ client.on("message", async message => {
             description: `
     ✅ ${client.user.username} está ativo em ${client.guilds.cache.size} servidores
     🎵 Tocando música 🎵 para ${client.users.cache.size} usuários.
-
-        Comandos [${config.prefix} <comando>]:
-
+        Comandos [${process.env.PREFIX} <comando>]:
         🏓 ping - mostrar o ping
         ⚙️ server - server status
         ▶️ play [link/search] - tocar música
@@ -286,18 +283,6 @@ function loopMusic(message, connection) {
         });
     }
 }
-
-function musicPlayerLoopQueue(message, connection) {
-    connection.play(ytdl(queue[0]), {filter: 'audioonly'}).on('end', () => {
-        queue.push(queue[0]);
-        queue.shift();
-        message.edit(`Tocando: ${(ytdl.getInfo(queue[0])).title}`);
-        if(queue.length >= 1) { 
-            musicPlayer(message, connection);
-        }
-    });
-}
-
 //client.login(config.token); //* ligar o bot    
 
 client.login(process.env.DISCORD_TOKEN);    
