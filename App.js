@@ -12,6 +12,8 @@ const queue = [];
 client.on("ready", () => {
     console.log(`Bot foi iniciado, com ${client.users.cache.size} usuários, em ${client.channels.cache.size} canais, em ${client.guilds.cache.size} servidores.`);
     client.user.setPresence( {activity: { name: `twitch.tv/bravanzin para ${client.users.cache.size} viewers`, type: 1, url: 'https://twitch.tv/bravanzin' }} );
+    client.user.send("O pai tá online!!");
+    client.user.lastMessage.react("😎");
 });
 
 //* bot adicionado a um server
