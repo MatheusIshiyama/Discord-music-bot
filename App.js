@@ -264,16 +264,22 @@ client.on("message", async message => {
 function musicPlayer(message, connection) {
     if(queue.length > 1) {
         queue.push(queue[0]);
-    }
-    connection.play(ytdl(queue[0]), {filter: 'audioonly'}).on('end', () => {
-        if(queue.length > 1) {
-            queue.shift();
-        }
-        message.edit(`Tocando: ${(ytdl.getInfo(queue[0])).title}`);
-        if(queue.length >= 1) { 
+        connection.play(ytdl(queue[0]), {filter: 'audioonly'}).on('end', () => {
+            if(queue.length > 1) {
+                queue.shift();
+            }
+            message.edit(`Tocando: ${(ytdl.getInfo(queue[0])).title}`);
             musicPlayer(message, connection);
-        }
-    });
+        });
+    } else {
+        connection.play(ytdl(queue[0]), {filter: 'audioonly'}).on('end', () => {
+            if(queue.length > 1) {
+                queue.shift();
+            }
+            message.edit(`Tocando: ${(ytdl.getInfo(queue[0])).title}`);
+            musicPlayer(message, connection);
+        });
+    }
 }
 
 client.login(process.env.DISCORD_TOKEN);
