@@ -4,10 +4,6 @@ const Youtube = require('simple-youtube-api');
 
 const client = new Discord.Client();
 
-process.env.YOUTUBE_TOKEN = "AIzaSyAgUDd0m3fG6-J2FR0JEj_b4S2UbWOwxYk";
-process.env.DISCORD_TOKEN = "Njg4NTcxODY5Mjc1ODgxNTAz.XnA8Rw.L9Dz_NP3iaMz_KhnU1-oJKJ8CgA";
-process.env.PREFIX = ";";
-
 const youtube = new Youtube(process.env.YOUTUBE_TOKEN);
 
 const queue = [];
