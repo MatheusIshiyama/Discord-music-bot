@@ -332,6 +332,4 @@ function loopMusic(message, connection) {
         });
     }
 }
-client.login(process.env.DISCORD_TOKEN);    
-
-youtube.
+client.login(process.env.DISCORD_TOKEN);
