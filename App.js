@@ -31,8 +31,7 @@ client.on("message", async message => {
     if(message.channel.type === 'dm') return;
     if(!message.guild) return;
 
-    message.channel.id = new queue();
-
+    const server = message.channel.id;
     const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/g);
     const comando = args.shift().toLowerCase();
     let comandoMusic = args.shift();
@@ -79,56 +78,60 @@ client.on("message", async message => {
     //* comando play music
     else if(comando === "play") {
         const connection = await message.member.voice.channel.join();
-        try {
-            let video = await youtube.getVideo(comandoMusic);
-            message.reply(`O video foi encontrado: ${video.title}`);
-            message.channel.id.queue.push(comandoMusic);
-            queue.push(comandoMusic);
-            if(queue.length >= 1) {
-                musicPlayer(message, connection);
-            }
-        } catch (error) {
+        if(`${server}`.length === 0) {
+            `${server}` = new Array();
+        } else {
             try {
-                let videoSearched = await youtube.searchVideos(comandoMusic, 3);
-                let videoFounded;
-                for(i in videoSearched) {
-                    videoFounded = await youtube.getVideoByID(videoSearched[i].id);
-                    message.channel.send(`${i}: ${videoFounded.title}`);
+                let video = await youtube.getVideo(comandoMusic);
+                message.reply(`O video foi encontrado: ${video.title}`);
+                message.channel.id.queue.push(comandoMusic);
+                `${server}`.push(comandoMusic);
+                if(`${server}`.length >= 1) {
+                    musicPlayer(message, connection, `${server}`);
                 }
-                message.channel.send({embed: {
-                    color: 3447003,
-                    description: 'Escolha uma música de 0 a 2!, clicando nas reações!',
-                }}).then( async (embedMessage) => {
-                    await embedMessage.react('0️⃣');
-                    await embedMessage.react('1️⃣');
-                    await embedMessage.react('2️⃣');
-
-                    const filter = (reaction, user) => {
-                        return ['0️⃣', '1️⃣', '2️⃣'].includes(reaction.emoji.name) && user.id === message.author.id;
-                    }
-
-                    let collector = embedMessage.createReactionCollector(filter, {time: 4000});
-                    collector.on('collect', async (reaction) => {
-                        if(reaction.emoji.name === '0️⃣') {
-                            message.channel.send(`Video selecionado: ${videoSearched[0].title}\nurl: ${videoSearched[0].url}`);
-                            videoFounded = await youtube.getVideoByID(videoSearched[0].id);
-                            queue.push(videoSearched[0].url);
-                        } else if(reaction.emoji.name === '1️⃣') {
-                            message.channel.send(`Video selecionado: ${videoSearched[1].title}\nurl: ${videoSearched[1].url}`);
-                            videoFounded = await youtube.getVideoByID(videoSearched[1].id);
-                            queue.push(videoSearched[1].url);
-                        } else if(reaction.emoji.name === '2️⃣') {
-                            message.channel.send(`Video selecionado: ${videoSearched[2].title}\nurl: ${videoSearched[2].url}`);
-                            videoFounded = await youtube.getVideoByID(videoSearched[2].id);
-                            queue.push(videoSearched[2].url);
-                        }
-                        if(queue.length >= 1) {
-                            musicPlayer(message, connection);
-                        }
-                    })
-                })
             } catch (error) {
-                message.channel.send("Nenhum video foi encontrado");
+                try {
+                    let videoSearched = await youtube.searchVideos(comandoMusic, 3);
+                    let videoFounded;
+                    for(i in videoSearched) {
+                        videoFounded = await youtube.getVideoByID(videoSearched[i].id);
+                        message.channel.send(`${i}: ${videoFounded.title}`);
+                    }
+                    message.channel.send({embed: {
+                        color: 3447003,
+                        description: 'Escolha uma música de 0 a 2!, clicando nas reações!',
+                    }}).then( async (embedMessage) => {
+                        await embedMessage.react('0️⃣');
+                        await embedMessage.react('1️⃣');
+                        await embedMessage.react('2️⃣');
+
+                        const filter = (reaction, user) => {
+                            return ['0️⃣', '1️⃣', '2️⃣'].includes(reaction.emoji.name) && user.id === message.author.id;
+                        }
+
+                        let collector = embedMessage.createReactionCollector(filter, {time: 4000});
+                        collector.on('collect', async (reaction) => {
+                            if(reaction.emoji.name === '0️⃣') {
+                                message.channel.send(`Video selecionado: ${videoSearched[0].title}\nurl: ${videoSearched[0].url}`);
+                                videoFounded = await youtube.getVideoByID(videoSearched[0].id);
+                                `${server}`.push(videoSearched[0].url);
+                            } else if(reaction.emoji.name === '1️⃣') {
+                                message.channel.send(`Video selecionado: ${videoSearched[1].title}\nurl: ${videoSearched[1].url}`);
+                                videoFounded = await youtube.getVideoByID(videoSearched[1].id);
+                                `${server}`.push(videoSearched[1].url);
+                            } else if(reaction.emoji.name === '2️⃣') {
+                                message.channel.send(`Video selecionado: ${videoSearched[2].title}\nurl: ${videoSearched[2].url}`);
+                                videoFounded = await youtube.getVideoByID(videoSearched[2].id);
+                                `${server}`.push(videoSearched[2].url);
+                            }
+                            if(`${server}`.length >= 1) {
+                                musicPlayer(message, connection, `${server}`);
+                            }
+                        })
+                    })
+                } catch (error) {
+                    message.channel.send("Nenhum video foi encontrado");
+                }
             }
         }
         /*if(ytdl.validateURL(comandoMusic)) {
@@ -270,12 +273,12 @@ client.on("message", async message => {
     }
 })
 
-function musicPlayer(message, connection) {
-    connection.play(ytdl(queue[0]), {filter: 'audioonly'}).on('end', () => {
-        queue.shift();
+function musicPlayer(message, connection, `${server}`) {
+    connection.play(ytdl(`${server}`[0]), {filter: 'audioonly'}).on('end', () => {
+        `${server}`.shift();
         message.edit(`Tocando: ${(ytdl.getInfo(queue[0])).title}`);
         if(queue.length >= 1) { 
-            musicPlayer(message, connection);
+            musicPlayer(message, connection, `${server}`);
         }
     });
 }
