@@ -160,6 +160,12 @@ client.on("message", async message => {
         }
     }
 
+    //* comando shuffle
+    else if(comando === "shuffle") {
+        await queue.shift();
+        queue.sort();
+    }
+
     //TODO: comando loop
     else if(comando === "loop") {
         const connection = await message.member.voice.channel.join();
