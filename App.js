@@ -136,7 +136,9 @@ client.on("message", async message => {
         try {
             let video = await youtube.getPlaylist(comandoMusic);
             message.reply(`A playlist foi encontrado: ${video.title}`);
-            queue.push(comandoMusic);
+            for(music in video) {
+                queue.push(video[music]);
+            }
             if(queue.length >= 1) {
                 musicPlayer(message, connection);
             }
