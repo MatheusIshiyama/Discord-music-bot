@@ -208,6 +208,7 @@ client.on("message", async message => {
         const connection = await message.member.voice.channel.join();
         if(connection.dispatcher) {
             if(queue.length > 1) {
+                queue.push(queue[0]);
                 queue.shift();
                 message.reply(`Tocando: ${(await ytdl.getInfo(queue[0])).title}`);
                 musicPlayer(message, connection);
