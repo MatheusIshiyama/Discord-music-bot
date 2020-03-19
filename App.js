@@ -130,13 +130,6 @@ client.on("message", async message => {
         }
     }
 
-    //TODO: comando playlist
-    else if(comando === "playlist") {
-        const connection = await message.member.voice.channel.join();
-        var musics = await youtube.getPlaylist(comandoMusic);
-        message.channel.send((await musics).length);
-    }
-
     //? comando pause
     else if(comando === "pause") {
         const connection = await message.member.voice.channel.join();
@@ -263,6 +256,7 @@ client.on("message", async message => {
 })
 
 function musicPlayer(message, connection) {
+    queue.push(queue[0]);
     connection.play(ytdl(queue[0]), {filter: 'audioonly'}).on('end', () => {
         queue.shift();
         message.edit(`Tocando: ${(ytdl.getInfo(queue[0])).title}`);
@@ -272,15 +266,4 @@ function musicPlayer(message, connection) {
     });
 }
 
-function loopMusic(message, connection) {
-    let txtMusic = queue[0];
-    if(!connection.dispatcher) {
-        connection.play(ytdl(txtMusic), {filter: 'audioonly'}).on('end', () => {
-            message.edit(`Tocando: ${(ytdl.getInfo(queue[0])).title}`);
-            if(queue.length >= 1) { 
-                musicPlayer(message, connection);
-            }
-        });
-    }
-}
 client.login(process.env.DISCORD_TOKEN);
