@@ -262,9 +262,13 @@ client.on("message", async message => {
 })
 
 function musicPlayer(message, connection) {
-    queue.push(queue[0]);
+    if(queue.length > 1) {
+        queue.push(queue[0]);
+    }
     connection.play(ytdl(queue[0]), {filter: 'audioonly'}).on('end', () => {
-        queue.shift();
+        if(queue.length > 1) {
+            queue.shift();
+        }
         message.edit(`Tocando: ${(ytdl.getInfo(queue[0])).title}`);
         if(queue.length >= 1) { 
             musicPlayer(message, connection);
