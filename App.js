@@ -133,7 +133,8 @@ client.on("message", async message => {
     //TODO: comando playlist
     else if(comando === "playlist") {
         const connection = await message.member.voice.channel.join();
-        message.channel.send(`${youtube.getPlaylist(comandoMusic)}`);
+        var musics = await youtube.getPlaylist(comandoMusic);
+        message.channel.send((await musics).length);
     }
 
     //? comando pause
