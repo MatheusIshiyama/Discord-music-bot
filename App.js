@@ -7,7 +7,6 @@ const client = new Discord.Client();
 const youtube = new Youtube(process.env.YOUTUBE_TOKEN);
 
 const queue = [];
-const queues = [];
 
 //* quando o bot ligar
 client.on("ready", () => {
@@ -32,8 +31,7 @@ client.on("message", async message => {
     if(message.channel.type === 'dm') return;
     if(!message.guild) return;
 
-    const svName = message.channel.guild.name;
-    svName = new queue();
+    message.channel.id = new queue();
 
     const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/g);
     const comando = args.shift().toLowerCase();
@@ -84,7 +82,7 @@ client.on("message", async message => {
         try {
             let video = await youtube.getVideo(comandoMusic);
             message.reply(`O video foi encontrado: ${video.title}`);
-            svName.queue.push(comandoMusic);
+            message.channel.id.queue.push(comandoMusic);
             queue.push(comandoMusic);
             if(queue.length >= 1) {
                 musicPlayer(message, connection);
@@ -239,6 +237,7 @@ client.on("message", async message => {
         const connection = await message.member.voice.channel.join();
         if(connection.dispatcher) {
             message.reply(`Tocando: ${(await ytdl.getInfo(queue[0])).title}`);
+            message.channel.send(message.channel.id.queue.length);
         } else {
             message.reply("Eu nem estou tocando nada");
         }
