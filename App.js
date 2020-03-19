@@ -4,6 +4,10 @@ const Youtube = require('simple-youtube-api');
 
 const client = new Discord.Client();
 
+process.env.YOUTUBE_TOKEN = "AIzaSyAgUDd0m3fG6-J2FR0JEj_b4S2UbWOwxYk";
+process.env.DISCORD_TOKEN = "Njg4NTcxODY5Mjc1ODgxNTAz.XnA8Rw.L9Dz_NP3iaMz_KhnU1-oJKJ8CgA";
+process.env.PREFIX = ";";
+
 const youtube = new Youtube(process.env.YOUTUBE_TOKEN);
 
 const queue = [];
@@ -43,15 +47,19 @@ client.on("message", async message => {
 
     //* commands
     if(comando === "help") {
+        const prefix = ("`" + process.env.PREFIX + "`");
         message.channel.send({embed: {
             color: 3447003,
             description: `
     ✅ ${client.user.username} está ativo em ${client.guilds.cache.size} servidores
     🎵 Tocando música 🎵 para ${client.users.cache.size} usuários.
-        Comandos [${process.env.PREFIX} <comando>]:
+
+        Comandos [${prefix} <comando>]:
+
         🏓 ping - mostrar o ping
         ⚙️ server - server status
-        ▶️ play [link/search] - tocar música
+        ▶️ play [link] - tocar música
+        🔎 search [palavra] - pesquisas youtube
         ⏸ pause - pausar música
         ⏯ resume - despausar música
         🔂 loop - repetir música atual
@@ -86,7 +94,7 @@ client.on("message", async message => {
                 message.reply(`Adicionado: ${comandoMusic} na queue`);
             }
         } else {
-            message.reply('link invalido');
+            message.reply(`Link inválido, caso seja uma busca, use ${process.env.PREFIX}search <Video>`);
         }
     }
 
@@ -99,6 +107,9 @@ client.on("message", async message => {
             queue.push(comandoMusic);
             if(queue.length === 1) {
                 musicPlayer(message, connection);
+            }
+            else if(queue.length > 1) {
+                message.channel.send(`Adicionado na queue: ${video.title}`);
             }
         } catch (error) {
             try {
@@ -120,7 +131,7 @@ client.on("message", async message => {
                         return ['0️⃣', '1️⃣', '2️⃣'].includes(reaction.emoji.name) && user.id === message.author.id;
                     }
 
-                    let collector = embedMessage.createReactionCollector(filter, {time: 4000});
+                    let collector = embedMessage.createReactionCollector(filter, {time: 10000});
                     collector.on('collect', async (reaction) => {
                         if(reaction.emoji.name === '0️⃣') {
                             message.channel.send(`Video selecionado: ${videoSearched[0].title}\nurl: ${videoSearched[0].url}`);
@@ -138,6 +149,9 @@ client.on("message", async message => {
                         if(queue.length === 1) {
                             musicPlayer(message, connection);
                         }
+                        else if(queue.length > 1) {
+                            message.channel.send(`Adicionado na queue`);
+                        }
                     })
                 })
             } catch (error) {
@@ -145,7 +159,6 @@ client.on("message", async message => {
             }
         }
     }
-
 
     //? comando pause
     else if(comando === "pause") {
@@ -179,8 +192,8 @@ client.on("message", async message => {
 
     //* comando shuffle
     else if(comando === "shuffle") {
-        await queue.shift();
         queue.sort();
+        message.reply(`Shuffled`);
     }
 
     //TODO: comando loop
@@ -207,16 +220,8 @@ client.on("message", async message => {
 
     //* comando clear(queue)
     else if(comando === "clear") {
-        const connection = await message.member.voice.channel.join();
-        if(connection) {    
-            if(connection.dispatcher) {
-                connection.dispatcher.end();
-                queue.length = 0;
-            } else {
-                message.reply("Eu não estou tocando nada!");
-            }
-        } else {
-            message.reply("Você precisa estar conectado à um canal!");
+        if(queue.length > 0) {
+            queue = 0;
         }
     }
 
