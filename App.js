@@ -85,6 +85,7 @@ client.on("message", async message => {
                 musicPlayer(message, connection);
             }
         } catch (error) {
+            console.log(error);
             try {
                 let videoSearched = await youtube.searchVideos(comandoMusic, 3);
                 let videoFounded;
@@ -125,6 +126,7 @@ client.on("message", async message => {
                     })
                 })
             } catch (error) {
+                console.log(error);
                 message.channel.send("Nenhum video foi encontrado");
             }
         }
