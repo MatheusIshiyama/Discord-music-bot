@@ -128,20 +128,65 @@ client.on("message", async message => {
                 message.channel.send("Nenhum video foi encontrado");
             }
         }
-        /*if(ytdl.validateURL(comandoMusic)) {
-            queue.push(comandoMusic);
-            if(queue.length === 1) {
-                message.reply(`Tocando: ${(await ytdl.getInfo(queue[0])).title}`);
-                musicPlayer(message, connection);
-            } else if(queue.length > 1) {
-                message.reply(`Adicionado: ${comandoMusic} na queue`);
-            }
-        } else {
-            message.reply('link invalido');
-        }*/
-    } 
+    }
 
-    //* comando pause
+    //TODO: comando playlist
+    else if(comando === "playlist") {
+        const connection = await message.member.voice.channel.join();
+        try {
+            let video = await youtube.getPlaylist(comandoMusic);
+            message.reply(`A playlist foi encontrado: ${video.title}`);
+            queue.push(comandoMusic);
+            if(queue.length >= 1) {
+                musicPlayer(message, connection);
+            }
+        } catch (error) {
+            try {
+                let videoSearched = await youtube.searchVideos(comandoMusic, 3);
+                let videoFounded;
+                for(i in videoSearched) {
+                    videoFounded = await youtube.getVideoByID(videoSearched[i].id);
+                    message.channel.send(`${i}: ${videoFounded.title}`);
+                }
+                message.channel.send({embed: {
+                    color: 3447003,
+                    description: 'Escolha uma música de 0 a 2!, clicando nas reações!',
+                }}).then( async (embedMessage) => {
+                    await embedMessage.react('0️⃣');
+                    await embedMessage.react('1️⃣');
+                    await embedMessage.react('2️⃣');
+
+                    const filter = (reaction, user) => {
+                        return ['0️⃣', '1️⃣', '2️⃣'].includes(reaction.emoji.name) && user.id === message.author.id;
+                    }
+
+                    let collector = embedMessage.createReactionCollector(filter, {time: 4000});
+                    collector.on('collect', async (reaction) => {
+                        if(reaction.emoji.name === '0️⃣') {
+                            message.channel.send(`Video selecionado: ${videoSearched[0].title}\nurl: ${videoSearched[0].url}`);
+                            videoFounded = await youtube.getVideoByID(videoSearched[0].id);
+                            queue.push(videoSearched[0].url);
+                        } else if(reaction.emoji.name === '1️⃣') {
+                            message.channel.send(`Video selecionado: ${videoSearched[1].title}\nurl: ${videoSearched[1].url}`);
+                            videoFounded = await youtube.getVideoByID(videoSearched[1].id);
+                            queue.push(videoSearched[1].url);
+                        } else if(reaction.emoji.name === '2️⃣') {
+                            message.channel.send(`Video selecionado: ${videoSearched[2].title}\nurl: ${videoSearched[2].url}`);
+                            videoFounded = await youtube.getVideoByID(videoSearched[2].id);
+                            queue.push(videoSearched[2].url);
+                        }
+                        if(queue.length >= 1) {
+                            musicPlayer(message, connection);
+                        }
+                    })
+                })
+            } catch (error) {
+                message.channel.send("Nenhum video foi encontrado");
+            }
+        }
+    }
+
+    //? comando pause
     else if(comando === "pause") {
         const connection = await message.member.voice.channel.join();
         if(connection.dispatcher) {
@@ -156,7 +201,7 @@ client.on("message", async message => {
         }
     }
 
-    //* comando resume
+    //? comando resume
     else if(comando === "resume") {
         const connection = await message.member.voice.channel.join();
         if(connection.dispatcher) {
@@ -171,7 +216,7 @@ client.on("message", async message => {
         }
     }
 
-    //* comando loop
+    //TODO: comando loop
     else if(comando === "loop") {
         const connection = await message.member.voice.channel.join();
         if(connection.dispatcher) {
@@ -182,7 +227,7 @@ client.on("message", async message => {
         }
     }
 
-    //* comando unloop
+    //TODO: comando unloop
     else if(comando === "unloop") {
         const connection = await message.member.voice.channel.join();
         if(connection.dispatcher) {
@@ -287,6 +332,6 @@ function loopMusic(message, connection) {
         });
     }
 }
-//client.login(config.token); //* ligar o bot    
-
 client.login(process.env.DISCORD_TOKEN);    
+
+youtube.
