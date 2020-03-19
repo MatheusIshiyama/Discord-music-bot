@@ -77,6 +77,22 @@ client.on("message", async message => {
     //* comando play music
     else if(comando === "play") {
         const connection = await message.member.voice.channel.join();
+        if(ytdl.validateURL(comandoMusic)) {
+            queue.push(comandoMusic);
+            if(queue.length === 1) {
+                message.reply(`Tocando: ${(await ytdl.getInfo(queue[0])).title}`);
+                musicPlayer(message, connection);
+            } else if(queue.length > 1) {
+                message.reply(`Adicionado: ${comandoMusic} na queue`);
+            }
+        } else {
+            message.reply('link invalido');
+        }
+    }
+
+    //* comando search music
+    else if(comando === "search") {
+        const connection = await message.member.voice.channel.join();
         try {
             let video = await youtube.getVideo(comandoMusic);
             message.reply(`O video foi encontrado: ${video.title}`);
