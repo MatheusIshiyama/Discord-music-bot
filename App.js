@@ -49,7 +49,7 @@ bot.on("message", async message => {
     if(message.channel.type === 'dm') return;
     if(!message.guild) return;
 
-    const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/g);
+    const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const comando = args.shift().toLowerCase();
     let comandoMusic = args.shift();
     
@@ -64,10 +64,10 @@ bot.on("message", async message => {
         message.channel.send({embed: {
             color: 3447003,
             description: `
-    ✅ ${client.user.username} está ativo em ${client.guilds.cache.size} servidores
-    🎵 Tocando música 🎵 para ${client.users.cache.size} usuários.
+    ✅ ${bot.user.username} está ativo em ${bot.guilds.cache.size} servidores
+    🎵 Tocando música 🎵 para ${bot.users.cache.size} usuários.
 
-        Comandos [\`${process.env.PREFIX}\` <comando>]:
+        Comandos [\`${prefix}\` <comando>]:
 
         🏓 ping - mostrar o ping
         ⚙️ server - server status
@@ -101,7 +101,7 @@ bot.on("message", async message => {
                 message.reply(`Adicionado: ${comandoMusic} na queue`);
             }
         } else {
-            message.reply(`Link inválido, caso seja uma busca, use ${process.env.PREFIX}search <Video>`);
+            message.reply(`Link inválido, caso seja uma busca, use ${prefix}search <Video>`);
         }
     }
 
@@ -282,7 +282,7 @@ bot.on("message", async message => {
     //* comando info
     else if(comando === "info") {
         const m = await message.channel.send("Testando...");
-        m.edit(`Estou em perfeito estado, e atualmente sendo usado por ${client.users.cache.size} usuários, em ${client.channels.cache.size} canais, em ${client.guilds.cache.size} servidores.`)
+        m.edit(`Estou em perfeito estado, e atualmente sendo usado por ${bot.users.cache.size} usuários, em ${bot.channels.cache.size} canais, em ${bot.guilds.cache.size} servidores.`)
     }
 })
 
@@ -297,4 +297,4 @@ function musicPlayer(message, connection) {
     });
 }
 
-client.login(discordKey);
+bot.login(discordKey);
