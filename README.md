@@ -13,7 +13,6 @@ Instalar o windows build tools
     npm install node-opus // decoder music
     npm install ffmpeg-static // dependência do decoder
     npm install ytdl-core // youtube player
-    npm install simple-youtube-api // youtube search
 
 ## Criar o projeto bot e API youtube
 
@@ -25,11 +24,7 @@ Para colocar o bot em um servidor Discord, basta pegar o ID do projeto, que fica
 
      https://discordapp.com/oauth2/authorize?client_id=INSERT_CLIENT_ID_HERE&scope=bot&permissions=8
 
-     Ex: https://discordapp.com/oauth2/authorize?client_id=16849416418615&scope=bot&permissions=8  // número digitado aleatóriamente
-
-### API youtube
-
-Entre no [Google Cloud Platform](https://cloud.google.com), faça login pela google e entre em console, crie um novo projeto e vá em "API e Serviços", clique em "+ ATIVAR API E SERVIÇOS", procure por Youtube e selecione "Youtube Data API v3" e adicione ao projeto, logo após isso, vá em credenciais e crie uma chave API da API do youtube.
+     Ex: https://discordapp.com/oauth2/authorize?client_id=16849416418615&scope=bot&permissions=8  // número gerado para permissões
 
 ## Iniciando o projeto
 
@@ -42,16 +37,15 @@ Após isso, criar um arquivo .js para iniciar a programação (ex. bot.js)
 
 Feito isso, sua pasta terá os arquivos: package.json, package-lock.json, bot.js
 
-crie um arquivo chamado config.json para armazenarmos as keys do bot e da API do youtube, abra o arquivo json e digite
+crie um arquivo chamado config.json para armazenarmos a key do bot, abra o arquivo json e digite
 
 ```json
 {
      "discordToken":"KEY_DISCORD",
-     "youtubeToken":"KEY_API_YOUTUBE",
      "prefix":"COMAND"
 }
 ```
-o KEY_DISCORD e o KEY_API_YOUTUBE são as keys foram geradas antes de iniciarmos o projeto, e o COMAND do prefix é o comando que usaremos para acionar o bot (ex. "!" => {!play, !info})
+o KEY_DISCORD é a key que foi gerada antes de iniciarmos o projeto, e o COMAND do prefix é o comando que usaremos para acionar o bot (ex. "!" => {!play, !info})
 
 Agora temos os arquivos config.json, package.json, package-lock.json, bot.js
 
@@ -59,14 +53,12 @@ No arquivo .js vamos configurar as keys
 
 ```javascript
 const config = require("config.json");
-const client = new Discord.Client();
-const Youtube = require("simple-youtube-api");
-const youtube = new Youtube(config.youtubeToken);
+const bot = new Discord.Client();
 
-client.login(config.discordToken);
+bot.login(config.discordToken);
 ```
 
-Com isso, configuramos as keys.
+Com isso, configuramos a key.
 
 No arquivo package.json, na linha ["Main":] coloque na frente o nome do arquivo .js (ex. "Main": bot.js)
 
@@ -75,14 +67,14 @@ No arquivo package.json, na linha ["Main":] coloque na frente o nome do arquivo 
 
 ### Console.log quando o bot iniciar
 
-Abra o arquivo .js e faça a requisição do discord.js (a variável <client>, pode ser trocada para qualquer nome)
+Abra o arquivo .js e faça a requisição do discord.js (a variável <bot>, pode ser trocada para qualquer nome)
 
 ```javascript
-const client = new Discord.Client();
+const bot = new Discord.Client();
 
-client.on("ready", () +> { //quando o bot iniciar, ele vai fazer...
-     console.log(`Bot foi iniciado, com ${client.users.cache.size} usuários, em ${client.channels.cache.size} canais, em ${client.guilds.cache.size} servidores.`);
-     client.user.setPresence( {activity: { name: `twitch.tv/bravanzin para ${client.users.cache.size} viewers`, type: 1, url: 'https://twitch.tv/bravanzin' }} );
+bot.on("ready", () +> { //quando o bot iniciar, ele vai fazer...
+     console.log(`Bot foi iniciado, com ${bot.users.cache.size} usuários, em ${bot.channels.cache.size} canais, em ${bot.guilds.cache.size} servidores.`);
+     bot.user.setPresence( {activity: { name: `twitch.tv/bravanzin para ${bot.users.cache.size} viewers`, type: 1, url: 'https://twitch.tv/bravanzin' }} );
 })
 ```
 
@@ -91,7 +83,7 @@ ele da o console.log das informações de usuários e canais e configura para o 
 ### Executar uma função
 
 ```javascript
-client.on("message", message => {
+bot.on("message", message => {
      if(message.author.bot) return;
      if(message.channel.type === 'dm') return;
      if(!message.guild) return;
@@ -118,16 +110,14 @@ client.on("message", message => {
 
 ```javascript
 const config = require("config.json");
-const client = new Discord.Client();
-const Youtube = require("simple-youtube-api");
-const youtube = new Youtube(config.youtubeToken);
+const bot = new Discord.Client();
 
-client.on("ready", () +> { //quando o bot iniciar, ele vai fazer...
-     console.log(`Bot foi iniciado, com ${client.users.cache.size} usuários, em ${client.channels.cache.size} canais, em ${client.guilds.cache.size} servidores.`);
-     client.user.setPresence( {activity: { name: `twitch.tv/bravanzin para ${client.users.cache.size} viewers`, type: 1, url: 'https://twitch.tv/bravanzin' }} );
+bot.on("ready", () +> { //quando o bot iniciar, ele vai fazer...
+     console.log(`Bot foi iniciado, com ${bot.users.cache.size} usuários, em ${bot.channels.cache.size} canais, em ${bot.guilds.cache.size} servidores.`);
+     bot.user.setPresence( {activity: { name: `twitch.tv/bravanzin para ${bot.users.cache.size} viewers`, type: 1, url: 'https://twitch.tv/bravanzin' }} );
 });
 
-client.on("message", message => {
+bot.on("message", message => {
      if(message.author.bot) return;
      if(message.channel.type === 'dm') return;
      if(!message.guild) return;
@@ -154,17 +144,15 @@ client.on("message", message => {
 
 ### Config Heroku
 
-Vá no site do [Heroku](heroku.com) e faça login, crie um novo app, assim que carregar tudo, vamos configurar o heroku, vá em settings, esse projeto em específico precisa do windows-build-tools, e para isso precisaremos ter esse link https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git para buildar nosso bot, vá em "Buildpacks" e adicione esse link para conseguirmos buildar nosso bot, adicione também o node.js, em settings também, iremos utilizar de variáveis, procurando por "Config vars", dentro criaremos as variáveis discordToken, youtubeToken e o prefix, onde estaremos colocando as mesmas keys que temos no config.json
+Vá no site do [Heroku](heroku.com) e faça login, crie um novo app, assim que carregar tudo, vamos configurar o heroku, vá em settings, esse projeto em específico precisa do windows-build-tools, e para isso precisaremos ter esse link https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git para buildar nosso bot, vá em "Buildpacks" e adicione esse link para conseguirmos buildar nosso bot, adicione também o node.js, em settings também, iremos utilizar de variáveis, procurando por "Config vars", dentro criaremos as variáveis discordToken e o prefix, onde estaremos colocando as mesmas keys que temos no config.json
 
 ### Config Bot
 
-No nosso arquivo .js precisaremos adicionar prefixos para o discordToken, youtubeToken e o prefix, que seria o "process.env." (ex. process.env.discordToken).
+No nosso arquivo .js precisaremos adicionar prefixos para o discordToken e o prefix, que seria o "process.env." (ex. process.env.discordToken).
 Ex.
 
 ```javascript
-const youtube = new Youtube(process.env.youtubeToken);
-
-client.login(process.env.discordToken);
+bot.login(process.env.discordToken);
 ```
 
 precisaremos criar um arquivo chamado Procfile, para enviar comandos para o heroku e dentro dele terá somente:
@@ -178,6 +166,7 @@ bot.js é o exemplo que utilizamos, mas tem que ser o nome do seu arquivo .js
 precisaremos criar um arquivo chamado .gitignore, no qual selecionaremos quais arquivos não serão enviados para o github, no arquivo teremos:
 
 ```gitignore
+.gitignore
 node-modules/
 package-lock.json
 config.json
