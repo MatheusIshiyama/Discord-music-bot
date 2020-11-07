@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 if(!process.env.PREFIX) {
     var config = require('./config.json');
 }
+const fs = require('fs');
 const ytdl = require('ytdl-core');
 const Youtube = require('simple-youtube-api');
 
@@ -13,6 +14,20 @@ const prefix = process.env.PREFIX || config.prefix;
 const youtube = new Youtube(process.env.YOUTUBE_TOKEN);
 
 const queue = [];
+
+//* ler comandos da pasta "commands"
+fs.readdir('./commands/', (err, files) => {
+    if(err) {
+        console.log(err);
+    }
+    let commandjs = files.filter(f => f.split(".").pop() == "js");
+    commandjs.forEach((f, i) => {
+        let props =  require(`./commands/${f}`);
+        console.log(`Comando ${f} carregado com sucesso.`);
+        bot.commands.set(props.info.name, props);
+    });
+})
+
 
 //* quando o bot ligar
 client.on("ready", () => {
