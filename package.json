@@ -13,7 +13,6 @@
     "discord.js": "^12.0.2",
     "ffmpeg-static": "^4.0.1",
     "node-opus": "^0.3.3",
-    "simple-youtube-api": "^5.2.1",
     "ytdl-core": "^2.0.0"
   }
 }
