@@ -27,24 +27,24 @@ fs.readdir('./commands/', (err, files) => {
 
 
 //* quando o bot ligar
-client.on("ready", () => {
-    console.log(`Bot foi iniciado, com ${client.users.cache.size} usuários, em ${client.channels.cache.size} canais, em ${client.guilds.cache.size} servidores.`);
-    client.user.setPresence( {activity: { name: `twitch.tv/bravanzin para ${client.users.cache.size} viewers`, type: 1, url: 'https://twitch.tv/bravanzin' }} );
+bot.on("ready", () => {
+    console.log(`Bot foi iniciado, com ${bot.users.cache.size} usuários, em ${bot.channels.cache.size} canais, em ${bot.guilds.cache.size} servidores.`);
+    bot.user.setPresence( {activity: { name: `twitch.tv/bravanzin para ${bot.users.cache.size} viewers`, type: 1, url: 'https://twitch.tv/bravanzin' }} );
 });
 
 //* bot adicionado a um server
-client.on("guildCreate", guild => {
+bot.on("guildCreate", guild => {
     console.log(`O bot entrou no servidor: ${guild.name} (id: ${guild.id}). População: ${guild.memberCount} membros!`);
-    client.user.setPresence( {activity: { name: `twitch.tv/bravanzin para ${client.users.cache.size} viewers`, type: 1, url: 'https://twitch.tv/bravanzin' }} );
+    bot.user.setPresence( {activity: { name: `twitch.tv/bravanzin para ${bot.users.cache.size} viewers`, type: 1, url: 'https://twitch.tv/bravanzin' }} );
 });
 
 //* bot removido de um server
-client.on("guildDelete", guild => {
+bot.on("guildDelete", guild => {
     console.log(`O bot foi removido do servidor: ${guild.name} (id: ${guild.id}`);
-    client.user.setPresence( {activity: { name: `twitch.tv/bravanzin para ${client.users.cache.size} viewers`, type: 1, url: 'https://twitch.tv/bravanzin' }} );
+    bot.user.setPresence( {activity: { name: `twitch.tv/bravanzin para ${bot.users.cache.size} viewers`, type: 1, url: 'https://twitch.tv/bravanzin' }} );
 });
 
-client.on("message", async message => {
+bot.on("message", async message => {
     if(message.author.bot) return;
     if(message.channel.type === 'dm') return;
     if(!message.guild) return;
@@ -83,12 +83,6 @@ client.on("message", async message => {
         ⚠️ info - informações do bot
         `}});
     }
-
-    //* comando ping
-    else if(comando === "ping") {
-        const m = await message.channel.send("🏓 Ping?");
-        m.edit(`🏓 Pong! A latência é ${m.createdTimestamp - message.createdTimestamp}ms. A latência da API é ${Math.round(client.ping)}ms.`);
-    } 
     
     //* comando server status
     else if(comando === "server") {
