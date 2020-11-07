@@ -48,49 +48,27 @@ bot.on("message", async message => {
     if(message.author.bot) return;
     if(message.channel.type === 'dm') return;
     if(!message.guild) return;
+    if(!message.content.startsWith(prefix)) return;
 
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
-    const comando = args.shift().toLowerCase();
-    let comandoMusic = args.shift();
+    const command = args.shift().toLowerCase();
+    let commandSong = args.shift();
     
     //* montar args para pesquisa de musica
     while(args.length > 0) {
-        comandoMusic = comandoMusic + " " + args[0];
+        commandSong = commandSong + " " + args[0];
         args.shift();
     }
 
     //* commands
-    if(comando === "help") {
-        message.channel.send({embed: {
-            color: 3447003,
-            description: `
-    ✅ ${bot.user.username} está ativo em ${bot.guilds.cache.size} servidores
-    🎵 Tocando música 🎵 para ${bot.users.cache.size} usuários.
-
-        Comandos [\`${prefix}\` <comando>]:
-
-        🏓 ping - mostrar o ping
-        ⚙️ server - server status
-        ▶️ play [link] - tocar música
-        🔎 search [palavra] - pesquisas youtube
-        ⏸ pause - pausar música
-        ⏯ resume - despausar música
-        🔂 loop - repetir música atual
-        ↩️ unloop - parar repetição de música
-        ⏹ clear - limpar fila de músicas
-        ⏩ skip - pular música atual
-        🎵 queue - número de músicas na fila
-        ⚠️ info - informações do bot
-        `}});
-    }
     
     //* comando server status
-    else if(comando === "server") {
+    if(command === "server") {
         message.channel.send(`Nome do servidor: ${message.guild.name}\nTotal de membros: ${message.guild.memberCount}`);
     }
     
     //* comando play music
-    else if(comando === "play") {
+    else if(command === "play") {
         const connection = await message.member.voice.channel.join();
         if(ytdl.validateURL(comandoMusic)) {
             queue.push(comandoMusic);
@@ -106,7 +84,7 @@ bot.on("message", async message => {
     }
 
     //* comando search music
-    else if(comando === "search") {
+    else if(command === "search") {
         const connection = await message.member.voice.channel.join();
         try {
             let video = await youtube.getVideo(comandoMusic);
@@ -168,7 +146,7 @@ bot.on("message", async message => {
     }
 
     //? comando pause
-    else if(comando === "pause") {
+    else if(command === "pause") {
         const connection = await message.member.voice.channel.join();
         if(connection.dispatcher) {
             if(!connection.dispatcher.paused) {
@@ -183,7 +161,7 @@ bot.on("message", async message => {
     }
 
     //? comando resume
-    else if(comando === "resume") {
+    else if(command === "resume") {
         const connection = await message.member.voice.channel.join();
         if(connection.dispatcher) {
             if(connection.dispatcher.paused) {
@@ -198,13 +176,13 @@ bot.on("message", async message => {
     }
 
     //* comando shuffle
-    else if(comando === "shuffle") {
+    else if(command === "shuffle") {
         queue.sort();
         message.reply(`Shuffled`);
     }
 
     //TODO: comando loop
-    else if(comando === "loop") {
+    else if(command === "loop") {
         const connection = await message.member.voice.channel.join();
         if(connection.dispatcher) {
             message.reply(`Modo loop ativado, tocando: ${queue[0]}`);
@@ -215,7 +193,7 @@ bot.on("message", async message => {
     }
 
     //TODO: comando unloop
-    else if(comando === "unloop") {
+    else if(command === "unloop") {
         const connection = await message.member.voice.channel.join();
         if(connection.dispatcher) {
             message.reply(`Modo loop desativado, tocando: ${queue[0]}`);
@@ -226,14 +204,14 @@ bot.on("message", async message => {
     }
 
     //* comando clear(queue)
-    else if(comando === "clear") {
+    else if(command === "clear") {
         if(queue.length > 0) {
             queue = 0;
         }
     }
 
     //* comando skip
-    else if(comando === "skip") {
+    else if(command === "skip") {
         const connection = await message.member.voice.channel.join();
         if(connection.dispatcher) {
             if(queue.length > 1) {
@@ -250,12 +228,12 @@ bot.on("message", async message => {
     }
 
     //* comando queue count
-    else if(comando === "queue") {
+    else if(command === "queue") {
         message.reply(`Eu tenho ${queue.length} músicas na fila`);
     }
 
     //* comando tocando
-    else if(comando === "playing") {
+    else if(command === "playing") {
         const connection = await message.member.voice.channel.join();
         if(connection.dispatcher) {
             message.reply(`Tocando: ${(await ytdl.getInfo(queue[0])).title}`);
@@ -265,14 +243,14 @@ bot.on("message", async message => {
     }
 
     //* comando leave
-    else if(comando === "leave") {
+    else if(command === "leave") {
         const connection = await message.member.voice.channel.join();
         queue.length = 0;
         connection.disconnect();
     }
 
     //* Comando invite
-    else if(comando === "invite") {
+    else if(command === "invite") {
         message.reply(`
             link do servidor principal: https://discord.gg/9KbhCP5\n
             invitar bot para o servidor: https://discordapp.com/oauth2/authorize?client_id=688571869275881503&scope=bot&permissions=8
@@ -280,9 +258,15 @@ bot.on("message", async message => {
     }
 
     //* comando info
-    else if(comando === "info") {
+    else if(command === "info") {
         const m = await message.channel.send("Testando...");
         m.edit(`Estou em perfeito estado, e atualmente sendo usado por ${bot.users.cache.size} usuários, em ${bot.channels.cache.size} canais, em ${bot.guilds.cache.size} servidores.`)
+    }
+
+    //* executar comando
+    const commandcmd = bot.commands.get(command);
+    if(commandcmd) {
+        commandcmd.run(bot, message, args);
     }
 })
 
