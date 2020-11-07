@@ -249,14 +249,6 @@ bot.on("message", async message => {
         connection.disconnect();
     }
 
-    //* Comando invite
-    else if(command === "invite") {
-        message.reply(`
-            link do servidor principal: https://discord.gg/9KbhCP5\n
-            invitar bot para o servidor: https://discordapp.com/oauth2/authorize?client_id=688571869275881503&scope=bot&permissions=8
-        `)
-    }
-
     //* comando info
     else if(command === "info") {
         const m = await message.channel.send("Testando...");
