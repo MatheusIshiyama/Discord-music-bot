@@ -1,8 +1,14 @@
 const Discord = require('discord.js');
+if(!process.env.PREFIX) {
+    var config = require('./config.json');
+}
 const ytdl = require('ytdl-core');
 const Youtube = require('simple-youtube-api');
 
 const client = new Discord.Client();
+
+const discordKey = process.env.DISCORD || config.discordKey;
+const prefix = process.env.PREFIX || config.prefix;
 
 const youtube = new Youtube(process.env.YOUTUBE_TOKEN);
 
@@ -43,14 +49,13 @@ client.on("message", async message => {
 
     //* commands
     if(comando === "help") {
-        const prefix = ("`" + process.env.PREFIX + "`");
         message.channel.send({embed: {
             color: 3447003,
             description: `
     ✅ ${client.user.username} está ativo em ${client.guilds.cache.size} servidores
     🎵 Tocando música 🎵 para ${client.users.cache.size} usuários.
 
-        Comandos [${prefix} <comando>]:
+        Comandos [\`${process.env.PREFIX}\` <comando>]:
 
         🏓 ping - mostrar o ping
         ⚙️ server - server status
@@ -291,4 +296,4 @@ function musicPlayer(message, connection) {
     });
 }
 
-client.login(process.env.DISCORD_TOKEN);
+client.login(discordKey);
