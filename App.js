@@ -50,15 +50,17 @@ bot.on("message", async message => {
     if(!message.guild) return;
     if(!message.content.startsWith(prefix)) return;
 
-    const args = message.content.slice(prefix.length).trim().split(/ +/g);
-    const command = args.shift().toLowerCase();
-    let commandSong = args.shift();
-    
+    const arg = message.content.slice(prefix.length).trim().split(/ +/g);
+    const command = arg.shift().toLowerCase();
+    let args = arg.shift();
+
     //* montar args para pesquisa de musica
-    while(args.length > 0) {
-        commandSong = commandSong + " " + args[0];
-        args.shift();
+    while(arg.length > 0) {
+        args = args + " " + arg[0];
+        arg.shift();
     }
+
+    console.log(args);
 
     //* commands
     
@@ -75,68 +77,6 @@ bot.on("message", async message => {
             }
         } else {
             message.reply(`Link inválido, caso seja uma busca, use ${prefix}search <Video>`);
-        }
-    }
-
-    //* comando search music
-    else if(command === "search") {
-        const connection = await message.member.voice.channel.join();
-        try {
-            let video = await youtube.getVideo(comandoMusic);
-            message.reply(`O video foi encontrado: ${video.title}`);
-            queue.push(comandoMusic);
-            if(queue.length === 1) {
-                musicPlayer(message, connection);
-            }
-            else if(queue.length > 1) {
-                message.channel.send(`Adicionado na queue: ${video.title}`);
-            }
-        } catch (error) {
-            try {
-                let videoSearched = await youtube.searchVideos(comandoMusic, 3);
-                let videoFounded;
-                for(i in videoSearched) {
-                    videoFounded = await youtube.getVideoByID(videoSearched[i].id);
-                    message.channel.send(`${i}: ${videoFounded.title}`);
-                }
-                message.channel.send({embed: {
-                    color: 3447003,
-                    description: 'Escolha uma música de 0 a 2!, clicando nas reações!',
-                }}).then( async (embedMessage) => {
-                    await embedMessage.react('0️⃣');
-                    await embedMessage.react('1️⃣');
-                    await embedMessage.react('2️⃣');
-
-                    const filter = (reaction, user) => {
-                        return ['0️⃣', '1️⃣', '2️⃣'].includes(reaction.emoji.name) && user.id === message.author.id;
-                    }
-
-                    let collector = embedMessage.createReactionCollector(filter, {time: 10000});
-                    collector.on('collect', async (reaction) => {
-                        if(reaction.emoji.name === '0️⃣') {
-                            message.channel.send(`Video selecionado: ${videoSearched[0].title}\nurl: ${videoSearched[0].url}`);
-                            videoFounded = await youtube.getVideoByID(videoSearched[0].id);
-                            queue.push(videoSearched[0].url);
-                        } else if(reaction.emoji.name === '1️⃣') {
-                            message.channel.send(`Video selecionado: ${videoSearched[1].title}\nurl: ${videoSearched[1].url}`);
-                            videoFounded = await youtube.getVideoByID(videoSearched[1].id);
-                            queue.push(videoSearched[1].url);
-                        } else if(reaction.emoji.name === '2️⃣') {
-                            message.channel.send(`Video selecionado: ${videoSearched[2].title}\nurl: ${videoSearched[2].url}`);
-                            videoFounded = await youtube.getVideoByID(videoSearched[2].id);
-                            queue.push(videoSearched[2].url);
-                        }
-                        if(queue.length === 1) {
-                            musicPlayer(message, connection);
-                        }
-                        else if(queue.length > 1) {
-                            message.channel.send(`Adicionado na queue`);
-                        }
-                    })
-                })
-            } catch (error) {
-                message.channel.send("Nenhum video foi encontrado");
-            }
         }
     }
 
