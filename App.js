@@ -3,15 +3,12 @@ if(!process.env.PREFIX) {
     var config = require('./config.json');
 }
 const fs = require('fs');
-const ytdl = require('ytdl-core');
-const Youtube = require('simple-youtube-api');
 
-const client = new Discord.Client();
+const bot = new Discord.Client();
+bot.commands = new Discord.Collection();
 
 const discordKey = process.env.DISCORD || config.discordKey;
 const prefix = process.env.PREFIX || config.prefix;
-
-const youtube = new Youtube(process.env.YOUTUBE_TOKEN);
 
 const queue = [];
 
