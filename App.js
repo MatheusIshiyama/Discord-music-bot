@@ -284,11 +284,6 @@ bot.on("message", async message => {
         const m = await message.channel.send("Testando...");
         m.edit(`Estou em perfeito estado, e atualmente sendo usado por ${client.users.cache.size} usuários, em ${client.channels.cache.size} canais, em ${client.guilds.cache.size} servidores.`)
     }
-
-    //* comando follow
-    else if(comando === "follow") {
-        message.member.voice.channel.join();
-    }
 })
 
 function musicPlayer(message, connection) {
