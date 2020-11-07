@@ -62,13 +62,8 @@ bot.on("message", async message => {
 
     //* commands
     
-    //* comando server status
-    if(command === "server") {
-        message.channel.send(`Nome do servidor: ${message.guild.name}\nTotal de membros: ${message.guild.memberCount}`);
-    }
-    
     //* comando play music
-    else if(command === "play") {
+    if(command === "play") {
         const connection = await message.member.voice.channel.join();
         if(ytdl.validateURL(comandoMusic)) {
             queue.push(comandoMusic);
