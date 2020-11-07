@@ -242,13 +242,6 @@ bot.on("message", async message => {
         }
     }
 
-    //* comando leave
-    else if(command === "leave") {
-        const connection = await message.member.voice.channel.join();
-        queue.length = 0;
-        connection.disconnect();
-    }
-
     //* comando info
     else if(command === "info") {
         const m = await message.channel.send("Testando...");
