@@ -46,9 +46,9 @@ crie um arquivo chamado config.json para armazenarmos as keys do bot e da API do
 
 ```json
 {
-     discordToken:"KEY_DISCORD",
-     youtubeToken:"KEY_API_YOUTUBE",
-     prefix:"COMAND"
+     "discordToken":"KEY_DISCORD",
+     "youtubeToken":"KEY_API_YOUTUBE",
+     "prefix":"COMAND"
 }
 ```
 o KEY_DISCORD e o KEY_API_YOUTUBE são as keys foram geradas antes de iniciarmos o projeto, e o COMAND do prefix é o comando que usaremos para acionar o bot (ex. "!" => {!play, !info})
