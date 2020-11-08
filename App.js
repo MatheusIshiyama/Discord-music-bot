@@ -100,23 +100,6 @@ bot.on("message", async message => {
         }
     }
 
-    //* comando skip
-    else if(command === "skip") {
-        const connection = await message.member.voice.channel.join();
-        if(connection.dispatcher) {
-            if(queue.length > 1) {
-                queue.push(queue[0]);
-                queue.shift();
-                message.reply(`Tocando: ${(await ytdl.getInfo(queue[0])).title}`);
-                musicPlayer(message, connection);
-            } else { 
-                message.reply("Eu só tenho uma música na queue");
-            }
-        } else {
-            message.reply("Eu nem estou tocando nada");
-        }
-    }
-
     //* comando queue count
     else if(command === "queue") {
         message.reply(`Eu tenho ${queue.length} músicas na fila`);
