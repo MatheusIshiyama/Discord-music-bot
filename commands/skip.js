@@ -1,7 +1,8 @@
-exports.run = async () => {
+exports.run = async (bot, message, args) => {
     const queue = message.client.queue.get(message.guild.id);
-    if (!queue)
+    if (!queue) {
       return message.reply("Não estou tocando nada para que eu possar passar de música");
+    }
 
     queue.playing = true;
     queue.connection.dispatcher.end();
