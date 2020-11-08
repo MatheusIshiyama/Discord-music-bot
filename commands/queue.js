@@ -6,13 +6,14 @@ exports.run = async (bot, message, args) => {
 
     const queueCount = queue.songs.length;
 
+    message.channel.send(`Tocando: **${queue.songs[0].title}**`);
     if (queueCount < 10) {
-        for(i = 0; i < queueCount; i++) {
-            message.channel.send(queue.songs[i].title);
+        for(i = 1; i < queueCount; i++) {
+            message.channel.send(`**${queue.songs[i].title}**`);
         }
     } else {
-        for(i = 0; i <= 10; i++) {
-            message.channel.send(queue.songs[i].title);
+        for(i = 1; i <= 10; i++) {
+            message.channel.send(`**${queue.songs[i].title}**`);
         }
         message.channel.send(`e mais ${queueCount-10}`);
     }
