@@ -13,7 +13,6 @@ const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
 bot.queue = new Map();
 
-bot.login(discordKey);
 
 //* ler comandos da pasta "commands"
 fs.readdir('./commands/', (err, files) => {
@@ -52,25 +51,25 @@ bot.on("message", async message => {
     if(message.channel.type === 'dm') return;
     if(!message.guild) return;
     if(!message.content.startsWith(prefix)) return;
-
+    
     const arg = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = arg.shift().toLowerCase();
     let args = arg.shift();
-
+    
     //* montar args para pesquisa de musica
     while(arg.length > 0) {
         args = args + " " + arg[0];
         arg.shift();
     }
-
+    
     //* commands
-
+    
     //* comando shuffle
     if(command === "shuffle") {
         queue.sort();
         message.reply(`Shuffled`);
     }
-
+    
     //TODO: comando loop
     else if(command === "loop") {
         const connection = await message.member.voice.channel.join();
@@ -81,7 +80,7 @@ bot.on("message", async message => {
             message.reply("Eu nem estou tocando nada");
         }
     }
-
+    
     //TODO: comando unloop
     else if(command === "unloop") {
         const connection = await message.member.voice.channel.join();
@@ -92,19 +91,19 @@ bot.on("message", async message => {
             message.reply("Eu nem estou tocando nada");
         }
     }
-
+    
     //* comando clear(queue)
     else if(command === "clear") {
         if(queue.length > 0) {
             queue = 0;
         }
     }
-
+    
     //* comando queue count
     else if(command === "queue") {
         message.reply(`Eu tenho ${queue.length} músicas na fila`);
     }
-
+    
     //* comando tocando
     else if(command === "playing") {
         const connection = await message.member.voice.channel.join();
@@ -114,16 +113,18 @@ bot.on("message", async message => {
             message.reply("Eu nem estou tocando nada");
         }
     }
-
+    
     //* comando info
     else if(command === "info") {
         const m = await message.channel.send("Testando...");
         m.edit(`Estou em perfeito estado, e atualmente sendo usado por ${bot.users.cache.size} usuários, em ${bot.channels.cache.size} canais, em ${bot.guilds.cache.size} servidores.`)
     }
-
+    
     //* executar comando
     const commandcmd = bot.commands.get(command);
     if(commandcmd) {
         commandcmd.run(bot, message, args);
     }
 })
+
+bot.login(discordKey);
