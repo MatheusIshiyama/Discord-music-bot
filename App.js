@@ -65,23 +65,8 @@ bot.on("message", async message => {
 
     //* commands
 
-    //? comando resume
-    if(command === "resume") {
-        const connection = await message.member.voice.channel.join();
-        if(connection.dispatcher) {
-            if(connection.dispatcher.paused) {
-                connection.dispatcher.resume();
-                message.reply("Tocando");
-            } else { 
-                message.reply("Eu já estou tocando musica");
-            }
-        } else {
-            message.reply("Eu nem estou tocando nada");
-        }
-    }
-
     //* comando shuffle
-    else if(command === "shuffle") {
+    if(command === "shuffle") {
         queue.sort();
         message.reply(`Shuffled`);
     }
