@@ -1,5 +1,6 @@
 const ytdl = require("ytdl-core");
 const { play } = require("../include/play");
+const { embedSend, embedReply } = require("../include/messages");
 try {
     const config = require("../config.json");
     prefix = config.prefix;
@@ -14,30 +15,40 @@ exports.run = async (bot, message, args) => {
 
     //* verificar se quem solicitou está em um chat de voz
     if (!channel) {
-        return message.reply(
-            "Entre em algum chat de voz para solicitar uma música"
+        return embedReply(
+            "Play",
+            "Entre em algum chat de voz para solicitar uma música",
+            message
         );
     }
     //* verificar se quem solicitou está no mesmo chat de voz que o bot
     if (serverQueue && channel !== message.guild.me.voice.channel) {
-        return message.reply(
-            "Para solicitar uma música, você precisa estar conectado no mesmo chat de voz que eu"
+        return embedReply(
+            "Play",
+            "Para solicitar uma música, você precisa estar conectado no mesmo chat de voz que eu",
+            message
         );
     }
 
     //* verificar se há link de vídeo
     if (!args.length || !args.includes("youtube.com")) {
-        return message.reply(`Use ${prefix}play <Youtube URL>`);
+        return embedReply("Play", `Use ${prefix}play <Youtube URL>`, message);
     }
 
     //* verifcar permissões
     const permissions = channel.permissionsFor(message.client.user);
     if (!permissions.has("CONNECT")) {
-        return message.reply("Não tenho permissão para entrar no chat de voz");
+        return embedReply(
+            "Play",
+            "Não tenho permissão para entrar no chat de voz",
+            message
+        );
     }
     if (!permissions.has("SPEAK")) {
-        return message.reply(
-            "Não tenho permissão para reproduzir neste chat de voz, verifique as permissões"
+        return embedReply(
+            "Play",
+            "Não tenho permissão para reproduzir neste chat de voz, verifique as permissões",
+            message
         );
     }
 
@@ -72,7 +83,11 @@ exports.run = async (bot, message, args) => {
 
     if (serverQueue) {
         serverQueue.songs.push(song);
-        return message.channel.send(`${song.title} foi adicionada na queue por ${message.author}`);
+        return embedSend(
+            "Play",
+            `${song.title} foi adicionada na queue por ${message.author}`,
+            message
+        );
     }
 
     //* adicionar link do video na queue
@@ -88,7 +103,11 @@ exports.run = async (bot, message, args) => {
         console.error(error);
         message.client.queue.delete(message.guild.id);
         await channel.leave();
-        return message.channel.send(`Não foi possivel conectar ao chat de voz: ${error}`);
+        return embedSend(
+            "Play",
+            `Não foi possivel conectar ao chat de voz: ${error}`,
+            message
+        );
     }
 };
 
