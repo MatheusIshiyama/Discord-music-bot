@@ -62,19 +62,6 @@ bot.on("message", async message => {
         arg.shift();
     }
     
-    //* commands
-    
-    //* comando shuffle
-    if(command === "shuffle") {
-        queue.sort();
-        message.reply(`Shuffled`);
-    }
-    //* comando info
-    else if(command === "info") {
-        const m = await message.channel.send("Testando...");
-        m.edit(`Estou em perfeito estado, e atualmente sendo usado por ${bot.users.cache.size} usuários, em ${bot.channels.cache.size} canais, em ${bot.guilds.cache.size} servidores.`)
-    }
-    
     //* executar comando
     const commandcmd = bot.commands.get(command);
     if(commandcmd) {
