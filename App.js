@@ -1,16 +1,19 @@
 const Discord = require('discord.js');
-if(!process.env.PREFIX) {
-    var config = require('./config.json');
-}
 const fs = require('fs');
+try {
+    const config = require('./config.json');
+    discordKey = config.discordKey;
+    prefix = config.prefix;
+} catch (error) {
+    discordKey = process.env.DISCORD;
+    prefix = process.env.PREFIX
+}
 
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
+bot.queue = new Map();
 
-const discordKey = process.env.DISCORD || config.discordKey;
-const prefix = process.env.PREFIX || config.prefix;
-
-const queue = [];
+bot.login(discordKey);
 
 //* ler comandos da pasta "commands"
 fs.readdir('./commands/', (err, files) => {
@@ -60,28 +63,10 @@ bot.on("message", async message => {
         arg.shift();
     }
 
-    console.log(args);
-
     //* commands
-    
-    //* comando play music
-    if(command === "play") {
-        const connection = await message.member.voice.channel.join();
-        if(ytdl.validateURL(comandoMusic)) {
-            queue.push(comandoMusic);
-            if(queue.length === 1) {
-                message.reply(`Tocando: ${(await ytdl.getInfo(queue[0])).title}`);
-                musicPlayer(message, connection);
-            } else if(queue.length > 1) {
-                message.reply(`Adicionado: ${comandoMusic} na queue`);
-            }
-        } else {
-            message.reply(`Link inválido, caso seja uma busca, use ${prefix}search <Video>`);
-        }
-    }
 
     //? comando pause
-    else if(command === "pause") {
+    if(command === "pause") {
         const connection = await message.member.voice.channel.join();
         if(connection.dispatcher) {
             if(!connection.dispatcher.paused) {
@@ -189,16 +174,3 @@ bot.on("message", async message => {
         commandcmd.run(bot, message, args);
     }
 })
-
-function musicPlayer(message, connection) {
-    connection.play(ytdl(queue[0]), {filter: 'audioonly'}).on('end', () => {
-        queue.push(queue[0]);
-        queue.shift();
-        message.edit(`Tocando: ${(ytdl.getInfo(queue[0])).title}`);
-        if(queue.length >= 1) { 
-            musicPlayer(message, connection);
-        }
-    });
-}
-
-bot.login(discordKey);
