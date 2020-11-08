@@ -104,16 +104,6 @@ bot.on("message", async message => {
         message.reply(`Eu tenho ${queue.length} músicas na fila`);
     }
     
-    //* comando tocando
-    else if(command === "playing") {
-        const connection = await message.member.voice.channel.join();
-        if(connection.dispatcher) {
-            message.reply(`Tocando: ${(await ytdl.getInfo(queue[0])).title}`);
-        } else {
-            message.reply("Eu nem estou tocando nada");
-        }
-    }
-    
     //* comando info
     else if(command === "info") {
         const m = await message.channel.send("Testando...");
