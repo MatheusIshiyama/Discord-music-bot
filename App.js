@@ -65,23 +65,8 @@ bot.on("message", async message => {
 
     //* commands
 
-    //? comando pause
-    if(command === "pause") {
-        const connection = await message.member.voice.channel.join();
-        if(connection.dispatcher) {
-            if(!connection.dispatcher.paused) {
-                connection.dispatcher.pause();
-                message.reply("Pausado");
-            } else { 
-                message.reply("Eu já estou pausado");
-            }
-        } else {
-            message.reply("Eu nem estou tocando nada");
-        }
-    }
-
     //? comando resume
-    else if(command === "resume") {
+    if(command === "resume") {
         const connection = await message.member.voice.channel.join();
         if(connection.dispatcher) {
             if(connection.dispatcher.paused) {
