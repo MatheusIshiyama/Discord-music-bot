@@ -1,12 +1,14 @@
+const { embedSend, embedReply } = require("../include/messages");
+
 exports.run = async (bot, message, args) => {
     const queue = message.client.queue.get(message.guild.id);
     if(!queue) {
-        return message.reply("Não estou tocando nada");
+        return embedReply("Stop", "Não estou tocando nada", message);
     }
 
     queue.songs = [];
     queue.connection.dispatcher.end();
-    queue.textChannel.send(`${message.author} parou a música.`);
+    return embedSend("Stop", `${message.author} parou a música.`, message);
 }
 
 exports.info = {
