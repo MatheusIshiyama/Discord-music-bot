@@ -50,5 +50,5 @@ exports.run = async (bot, message, args) => {
 };
 
 exports.info = {
-    name: "help"
+    name: "help",
 };
