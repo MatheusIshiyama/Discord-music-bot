@@ -3,7 +3,7 @@ const { embedSend, embedReply } = require("../include/messages");
 exports.run = async (bot, message, args) => {
     const queue = message.client.queue.get(message.guild.id);
     if(!queue) {
-        return message.reply("Não estou tocando nada");
+        return embedReply("Queue", "Não estou tocando nada", message);
     }
 
     const queueCount = queue.songs.length;
