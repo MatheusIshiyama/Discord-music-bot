@@ -76,7 +76,7 @@ exports.run = async (bot, message, args) => {
     }
 
     //* adicionar link do video na queue
-    queueConstruct.songs.push(args);
+    queueConstruct.songs.push(song);
     message.client.queue.set(message.guild.id, queueConstruct);
 
     //* tocar musica
