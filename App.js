@@ -99,11 +99,6 @@ bot.on("message", async message => {
         }
     }
     
-    //* comando queue count
-    else if(command === "queue") {
-        message.reply(`Eu tenho ${queue.length} músicas na fila`);
-    }
-    
     //* comando info
     else if(command === "info") {
         const m = await message.channel.send("Testando...");
