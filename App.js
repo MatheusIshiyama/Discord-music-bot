@@ -69,36 +69,6 @@ bot.on("message", async message => {
         queue.sort();
         message.reply(`Shuffled`);
     }
-    
-    //TODO: comando loop
-    else if(command === "loop") {
-        const connection = await message.member.voice.channel.join();
-        if(connection.dispatcher) {
-            message.reply(`Modo loop ativado, tocando: ${queue[0]}`);
-            loopMusic(message, connection);
-        } else {
-            message.reply("Eu nem estou tocando nada");
-        }
-    }
-    
-    //TODO: comando unloop
-    else if(command === "unloop") {
-        const connection = await message.member.voice.channel.join();
-        if(connection.dispatcher) {
-            message.reply(`Modo loop desativado, tocando: ${queue[0]}`);
-            musicPlayer(message, connection);
-        } else {
-            message.reply("Eu nem estou tocando nada");
-        }
-    }
-    
-    //* comando clear(queue)
-    else if(command === "clear") {
-        if(queue.length > 0) {
-            queue = 0;
-        }
-    }
-    
     //* comando info
     else if(command === "info") {
         const m = await message.channel.send("Testando...");
