@@ -1,11 +1,11 @@
-//const guildModel = require("../models/guild");
-if (!process.env.PREFIX) {
-    var config = require("../config.json");
+try {
+    const config = require("../config.json");
+    prefix = config.prefix;
+} catch (error) {
+    prefix = process.env.PREFIX;
 }
-const prefix = process.env.PREFIX || config.prefix;
 
 exports.run = async (bot, message, args) => {
-    //const req = await guildModel.findOne({ id: `${message.guild.id}` });
     message.channel.send({
         embed: {
             color: 3447003,
