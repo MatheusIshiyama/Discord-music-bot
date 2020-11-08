@@ -1,5 +1,4 @@
 const ytdlDiscord = require("ytdl-core-discord");
-const ytdl = require("ytdl-core");
 
 module.exports = {
     async play(song, message) {
@@ -12,7 +11,7 @@ module.exports = {
         }
 
         let stream = null;
-        let streamType = song.url.includes("youtube.com") ? "opus" : "ogg/opus";
+        let streamType = "opus";
 
         try {
             stream = await ytdlDiscord(song.url, { highWaterMark: 1 << 25 });
