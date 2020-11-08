@@ -10,12 +10,6 @@ module.exports = {
             return queue.textChannel.send("🚫 A fila de musicas acabou.");
         }
 
-        if (!args.includes("youtube.com")) {
-            queue.channel.leave();
-            message.client.queue.delete(message.guild.id);
-            return queue.textChannel.send(`Use ${prefix}play <Youtube URL>`);
-        }
-
         let stream = null;
         let streamType = "opus";
 

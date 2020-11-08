@@ -26,7 +26,7 @@ exports.run = async (bot, message, args) => {
     }
 
     //* verificar se há link de vídeo
-    if (!args.length) {
+    if (!args.length || !args.includes("youtube.com")) {
         return message.reply(`Use ${prefix}play <Youtube URL>`);
     }
 
