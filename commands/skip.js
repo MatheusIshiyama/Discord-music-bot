@@ -5,7 +5,7 @@ exports.run = async () => {
 
     queue.playing = true;
     queue.connection.dispatcher.end();
-    queue.textChannel.send(`${message.author} ⏭ passou de música`).catch(console.error);
+    queue.textChannel.send(`${message.author} ⏭ passou de música`);
 }
 
 exports.info = {
