@@ -72,7 +72,7 @@ exports.run = async (bot, message, args) => {
 
     if (serverQueue) {
         serverQueue.songs.push(song);
-        return serverQueue.channel.send(`${song.title} foi adicionada na queue por ${message.author}`);
+        return message.channel.send(`${song.title} foi adicionada na queue por ${message.author}`);
     }
 
     //* adicionar link do video na queue
