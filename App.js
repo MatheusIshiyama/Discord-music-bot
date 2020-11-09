@@ -31,19 +31,7 @@ fs.readdir('./commands/', (err, files) => {
 //* quando o bot ligar
 bot.on("ready", () => {
     console.log(`Bot foi iniciado, com ${bot.users.cache.size} usuários, em ${bot.channels.cache.size} canais, em ${bot.guilds.cache.size} servidores.`);
-    bot.user.setPresence( {activity: { name: `twitch.tv/bravanzin para ${bot.users.cache.size} viewers`, type: 1, url: 'https://twitch.tv/bravanzin' }} );
-});
-
-//* bot adicionado a um server
-bot.on("guildCreate", guild => {
-    console.log(`O bot entrou no servidor: ${guild.name} (id: ${guild.id}). População: ${guild.memberCount} membros!`);
-    bot.user.setPresence( {activity: { name: `twitch.tv/bravanzin para ${bot.users.cache.size} viewers`, type: 1, url: 'https://twitch.tv/bravanzin' }} );
-});
-
-//* bot removido de um server
-bot.on("guildDelete", guild => {
-    console.log(`O bot foi removido do servidor: ${guild.name} (id: ${guild.id}`);
-    bot.user.setPresence( {activity: { name: `twitch.tv/bravanzin para ${bot.users.cache.size} viewers`, type: 1, url: 'https://twitch.tv/bravanzin' }} );
+    bot.user.setPresence( {activity: { name: `lo-fi - prefix: \`${prefix}\``, type: 2}} );
 });
 
 bot.on("message", async message => {
