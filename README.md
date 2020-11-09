@@ -1,8 +1,9 @@
-# Bot de discord by Bravan
+# Bravanzin
 
 ## Config inicial
 
 ### requisitos:
+
 Instalar o windows build tools
 
      npm install --global windows-build-tools
@@ -13,8 +14,9 @@ Instalar o windows build tools
     npm install node-opus // decoder music
     npm install ffmpeg-static // dependência do decoder
     npm install ytdl-core // youtube player
+    npm install youtube-playlist // pegar playlist do youtube
 
-## Criar o projeto bot e API youtube
+## Criar o projeto bot
 
 ### Bot discord
 
@@ -24,12 +26,13 @@ Para colocar o bot em um servidor Discord, basta pegar o ID do projeto, que fica
 
      https://discordapp.com/oauth2/authorize?client_id=INSERT_CLIENT_ID_HERE&scope=bot&permissions=8
 
-     Ex: https://discordapp.com/oauth2/authorize?client_id=16849416418615&scope=bot&permissions=8  // número gerado para permissões
+     Ex: https://discordapp.com/oauth2/authorize?client_id=16849416418615&scope=bot&permissions=8  // número gerado aleatóriamente
 
 ## Iniciando o projeto
 
-Inicie o projeto com o comando pelo cmd em uma pasta vazia e instale as dependências
-Para navegar entre pastas use o comando cd <nome_da_pasta>
+Inicie o projeto com o comando pelo cmd em uma pasta vazia e instale as dependências.
+
+** Para navegar entre pastas use o comando cd <nome_da_pasta> **
 
      npm init -y
 
@@ -41,10 +44,11 @@ crie um arquivo chamado config.json para armazenarmos a key do bot, abra o arqui
 
 ```json
 {
-     "discordToken":"KEY_DISCORD",
-     "prefix":"COMAND"
+    "discordToken": "KEY_DISCORD",
+    "prefix": "COMAND"
 }
 ```
+
 o KEY_DISCORD é a key que foi gerada antes de iniciarmos o projeto, e o COMAND do prefix é o comando que usaremos para acionar o bot (ex. "!" => {!play, !info})
 
 Agora temos os arquivos config.json, package.json, package-lock.json, bot.js
@@ -64,7 +68,6 @@ No arquivo package.json, na linha ["Main":] coloque na frente o nome do arquivo 
 
 ## Eventos iniciais do bot
 
-
 ### Console.log quando o bot iniciar
 
 Abra o arquivo .js e faça a requisição do discord.js (a variável <bot>, pode ser trocada para qualquer nome)
@@ -83,27 +86,29 @@ ele da o console.log das informações de usuários e canais e configura para o 
 ### Executar uma função
 
 ```javascript
-bot.on("message", message => {
-     if(message.author.bot) return;
-     if(message.channel.type === 'dm') return;
-     if(!message.guild) return;
+bot.on("message", (message) => {
+    if (message.author.bot) return;
+    if (message.channel.type === "dm") return;
+    if (!message.guild) return;
 
-     // para ler o comando
-     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
-     const comand = args.shift().toLowerCase();
+    // para ler o comando
+    const args = message.content
+        .slice(config.prefix.length)
+        .trim()
+        .split(/ +/g);
+    const command = args.shift().toLowerCase();
 
-     // executar algum comando
-     if(comand === "teste") {
-          message.channel.send("Testando...");
-          message.edit("Funcionando perfeitamente");
-     }
+    // executar algum comando
+    if (command === "teste") {
+        message.channel.send("Testando...");
+        message.edit("Funcionando perfeitamente");
+    }
 
-     // proximo comando
-     else if(comando === "beep") {
-          message.reply("boop");
-     }
-})
-
+    // proximo comando
+    else if (command === "beep") {
+        message.reply("boop");
+    }
+});
 ```
 
 ### Exemplo de código
@@ -140,6 +145,60 @@ bot.on("message", message => {
 
 ```
 
+### Melhorando o código
+
+Para facilitarmos o código e não termos um arquivo muito extenso, iremos criar uma pasta chamada "comandos", onde iremos colocar todos os comandos do bot.
+
+No arquivo principal (ex: bot.js) iremos utilizar o "fs" e adicionar o "Collection" no bot para pegarmos todos os arquivos da pasta e armazenarmos na "Collection" do bot.
+
+```javascript
+bot commands = new Discord.Collection();
+```
+
+Com o "readdir", colocaremos o caminho da pasta dos arquivos igual o exemplo abaixo e utilizaremos uma arrow function para pegar os arquivos e armazendar no Collection, um por um, o "let commandjs" irá fazer um filtro para pegar o nome do arquivo sem o ".js" (exemplo: play, info).
+
+```javascript
+const fs = require('fs');
+
+fs.readdir("./commands/", (err, files) => {
+    if (err) {
+        console.log(err);
+    }
+    let commandjs = files.filter((f) => f.split(".").pop() == "js");
+    commandjs.forEach((f, i) => {
+        let props = require(`./commands/${f}`);
+        console.log(`Comando ${f} carregado com sucesso.`);
+        bot.commands.set(props.info.name, props);
+    });
+});
+```
+
+Para criarmos o comando iremos criar um arquivo dentro da pasta "comandos" com o nome do comando + .js, exemplo: play.js, info.js
+
+No arquivo o padrão em todos será:
+
+```javascript
+exports.run = async (bot, message) => {
+    // codigo do comando
+}
+
+exports.info = {
+    //informação do comando
+     name: "<comando>"
+}
+```
+
+No arquivo principal iremos fazer o filtro para executar o comando, colocaremos isso dentro do "bot.on("message")"
+
+```javascript
+    const commandcmd = bot.commands.get(command);
+        if(commandcmd) {
+            commandcmd.run(bot, message);
+        }
+```
+
+Isso fará com que execute o arquivo do comando solicitado.
+
 ## Subindo o bot no Heroku
 
 ### Config Heroku
@@ -171,6 +230,7 @@ node-modules/
 package-lock.json
 config.json
 ```
+
 Após isso, teremos que configurar o git
 
 ### Config Github
