@@ -9,14 +9,14 @@ exports.run = async (bot, message, args) => {
     const queueCount = queue.songs.length;
     let msg;
 
-    msg = `**Tocando:** \`${queue.songs[0].title}\`\n`;
+    msg = `**Tocando:** \`${queue.songs[0].title}\`\n **Próximas:**`;
     if (queueCount < 10) {
         for(i = 1; i < queueCount; i++) {
-            msg += `\n ${i}. \`${queue.songs[i].title}\``;
+            msg += `\n **${i}.** \`${queue.songs[i].title}\``;
         }
     } else {
         for(i = 1; i <= 10; i++) {
-            msg += `\n ${i}. \`${queue.songs[i].title}\``;
+            msg += `\n **${i}.** \`${queue.songs[i].title}\``;
         }
         msg += `\n \`e mais ${queueCount-10}\``;
     }
