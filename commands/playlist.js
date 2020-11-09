@@ -77,17 +77,19 @@ exports.run = async (bot, message, args) => {
         songs = playlistInfo.data.playlist;
         playlistSize = songs.length;
         for (i = 0; i < playlistSize; i++) {
-            song = {
-                title: songs[i].name,
-                url: songs[i].url,
-            };
+            if (ytdl.validateURL(songs[i].url)) {
+                song = {
+                    title: songs[i].name,
+                    url: songs[i].url,
+                };
 
-            if (serverQueue) {
-                serverQueue.songs.push(song);
+                if (serverQueue) {
+                    serverQueue.songs.push(song);
+                }
+                //* adicionar link do video na queue
+                queueConstruct.songs.push(song);
+                message.client.queue.set(message.guild.id, queueConstruct);
             }
-            //* adicionar link do video na queue
-            queueConstruct.songs.push(song);
-            message.client.queue.set(message.guild.id, queueConstruct);
         }
     } catch (error) {
         console.log(error);
