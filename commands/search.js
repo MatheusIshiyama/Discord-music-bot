@@ -15,7 +15,7 @@ exports.run = async (bot, message, args) => {
     }
 
     let resultsEmbed = new MessageEmbed()
-        .setTitle(`**DIgite o número da música que queira tocar**`)
+        .setTitle(`**Digite o número da música que queira tocar**`)
         .setDescription(`Resultados para: ${args}`)
         .setColor("3498DB");
 
