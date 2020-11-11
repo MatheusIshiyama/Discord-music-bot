@@ -11,12 +11,12 @@ const youtube = new Youtube(youtubeKey);
 exports.run = async (bot, message, args) => {
     //* verificar se há link de vídeo
     if (!args.length) {
-        return embedReply("Play", `Use ${prefix}play <Youtube URL>`, message);
+        return embedReply("Search", `Use ${prefix}search <video>`, message);
     }
 
     let resultsEmbed = new MessageEmbed()
-        .setTitle(`**Reply with the song number you want to play**`)
-        .setDescription(`Results for: ${args}`)
+        .setTitle(`**DIgite o número da música que queira tocar**`)
+        .setDescription(`Resultados para: ${args}`)
         .setColor("3498DB");
 
     try {
