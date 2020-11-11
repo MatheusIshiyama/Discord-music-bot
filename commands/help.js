@@ -33,6 +33,7 @@ exports.run = async (bot, message, args) => {
                     \`playlist <link>\` - tocar playlist do youtube
                     \`queue\` - mostrar as músicas da fila
                     \`resume\` - despausar música
+                    \`search <pesquisa>\` - pesquisar música
                     \`shuffle\` - aleatorizar a fila de músicas
                     \`skip\` - pular música atual
                     \`stop\` - parar de tocar música
