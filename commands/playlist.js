@@ -1,13 +1,16 @@
-const ytList = require("youtube-playlist");
+const Youtube = require('simple-youtube-api');
 const ytdl = require("ytdl-core");
 const { play } = require("../include/play");
 const { embedSend, embedReply } = require("../include/messages");
 try {
     const config = require("../config.json");
     prefix = config.prefix;
+    youtubeKey = config.youtubeKey
 } catch (error) {
     prefix = process.env.PREFIX;
+    youtubeKey = process.env.YOUTUBE_KEY
 }
+const youtube = new Youtube(youtubeKey);
 
 exports.run = async (bot, message, args) => {
     const { channel } = message.member.voice;
@@ -32,10 +35,10 @@ exports.run = async (bot, message, args) => {
     }
 
     //* verificar se há link de vídeo
-    if (!args.length || !args.includes("youtube.com")) {
+    if (!args || !args.length || !args.includes("youtube.com/playlist")) {
         return embedReply(
             "Playlist",
-            `Use ${prefix}play <Youtube URL>`,
+            `Use ${prefix}playlist <Youtube Playlist URL> | ${prefix}play <Youtube URL> | ${prefix}search <pesquisa>`,
             message
         );
     }
@@ -73,27 +76,29 @@ exports.run = async (bot, message, args) => {
         song = null;
 
     try {
-        playlistInfo = await ytList(args, ["name", "url"]);
-        songs = playlistInfo.data.playlist;
-        playlistSize = songs.length;
-        for (i = 0; i < playlistSize; i++) {
-            if (ytdl.validateURL(songs[i].url)) {
+        playlistInfo = await youtube.getPlaylist(args);
+        songs = await playlistInfo.getVideos();
+        songs.forEach(song => {
+            if (ytdl.validateURL(song.url)) {
                 song = {
-                    title: songs[i].name,
-                    url: songs[i].url,
+                    title: song.title,
+                    url: song.url,
                 };
-
+                
                 if (serverQueue) {
                     serverQueue.songs.push(song);
+                } else {
+                    queueConstruct.songs.push(song);
                 }
-                //* adicionar link do video na queue
-                queueConstruct.songs.push(song);
-                message.client.queue.set(message.guild.id, queueConstruct);
             }
-        }
+        })
     } catch (error) {
         console.log(error);
         return message.reply(error.message);
+    }
+    
+    if(!serverQueue) {
+        message.client.queue.set(message.guild.id, queueConstruct);
     }
 
     //* tocar musica
