@@ -3,8 +3,9 @@ const mongoose = require("mongoose");
 const fs = require("fs");
 const help = require("./commands/help");
 const guildModel = require('./models/guild');
+const userModel = require('./models/user');
 const { embedSend } = require('./include/messages');
-const { guildRegister, guildRemove, guildUpdate } = require('./include/register');
+const { guildRegister, guildRemove, guildUpdate, user } = require('./include/register');
 try {
     const config = require("./config.json");
     discordKey = config.discordKey;
@@ -64,12 +65,13 @@ bot.on("message", async (message) => {
     }
     if (!message.guild) return;
 
-    let req = await guildModel.findOne({ serverId: message.guild.id });
-    prefix = req.prefix;
+    let server = await guildModel.findOne({ serverId: message.guild.id });
+    prefix = server.prefix;
 
     if (!message.content.startsWith(prefix)) return;
     
     await guildUpdate(message.guild);
+    await user(message.author);
 
     const arg = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = arg.shift().toLowerCase();
