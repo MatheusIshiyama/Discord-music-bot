@@ -1,13 +1,16 @@
 const Discord = require("discord.js");
+const mongoose = require("mongoose");
 const fs = require("fs");
 const help = require("./commands/help");
 const { embedSend } = require("./include/messages");
 try {
     const config = require("./config.json");
     discordKey = config.discordKey;
+    mongoKey = config.mongoKey;
     prefix = config.prefix;
 } catch (error) {
     discordKey = process.env.DISCORD;
+    mongoKey = process.env.MONGODB;
     prefix = process.env.PREFIX;
 }
 
@@ -23,7 +26,7 @@ fs.readdir("./commands/", (err, files) => {
     let commandjs = files.filter((f) => f.split(".").pop() == "js");
     commandjs.forEach((f, i) => {
         let props = require(`./commands/${f}`);
-        console.log(`Comando ${f} carregado com sucesso.`);
+        console.log(`[Bot] Comando ${f} carregado com sucesso.`);
         bot.commands.set(props.info.name, props);
     });
 });
@@ -31,7 +34,7 @@ fs.readdir("./commands/", (err, files) => {
 //* quando o bot ligar
 bot.on("ready", () => {
     console.log(
-        `Bot foi iniciado, com ${bot.users.cache.size} usuários, em ${bot.channels.cache.size} canais, em ${bot.guilds.cache.size} servidores.`
+        `[Bot] Bot foi iniciado, com ${bot.users.cache.size} usuários, em ${bot.channels.cache.size} canais, em ${bot.guilds.cache.size} servidores.`
     );
     bot.user.setPresence({
         activity: { name: `lo-fi - prefix: ${prefix}`, type: 2 },
@@ -72,3 +75,7 @@ bot.on("message", async (message) => {
 });
 
 bot.login(discordKey);
+mongoose
+    .connect(mongoKey, { useUnifiedTopology: true, useNewUrlParser: true })
+    .then(console.log("[MongoDB] conectado ao mongo"))
+    .catch((err) => console.log(err));
