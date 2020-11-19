@@ -2,7 +2,9 @@ const Discord = require("discord.js");
 const mongoose = require("mongoose");
 const fs = require("fs");
 const help = require("./commands/help");
-const { embedSend } = require("./include/messages");
+const guildModel = require('./models/guild');
+const { embedSend } = require('./include/messages');
+const { guildRegister, guildRemove, guildUpdate } = require('./include/register');
 try {
     const config = require("./config.json");
     discordKey = config.discordKey;
@@ -41,6 +43,14 @@ bot.on("ready", () => {
     });
 });
 
+bot.on("guildCreate", guild => {
+    guildRegister(guild);
+})
+
+bot.on("guildDelete", guild => {
+    guildRemove(guild);
+})
+
 bot.on("message", async (message) => {
     if (message.author.bot) return;
     if (message.channel.type === "dm") {
@@ -56,6 +66,8 @@ bot.on("message", async (message) => {
     }
     if (!message.guild) return;
     if (!message.content.startsWith(prefix)) return;
+
+    await guildModel.findOneAndUpdate({ serverId: message.guild.id }, { serverName: message.guild.name });
 
     const arg = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = arg.shift().toLowerCase();
@@ -76,6 +88,6 @@ bot.on("message", async (message) => {
 
 bot.login(discordKey);
 mongoose
-    .connect(mongoKey, { useUnifiedTopology: true, useNewUrlParser: true })
+    .connect(mongoKey, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false })
     .then(console.log("[MongoDB] conectado ao mongo"))
     .catch((err) => console.log(err));
