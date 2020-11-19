@@ -7,7 +7,7 @@ module.exports = {
             const guildInfo = new guildModel({
                 serverId: guild.id,
                 serverName: guild.name,
-                prefix: prefix,
+                prefix: ";",
                 playlists: null
             })
             await guildInfo.save();

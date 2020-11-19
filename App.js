@@ -9,11 +9,9 @@ try {
     const config = require("./config.json");
     discordKey = config.discordKey;
     mongoKey = config.mongoKey;
-    prefix = config.prefix;
 } catch (error) {
     discordKey = process.env.DISCORD;
     mongoKey = process.env.MONGODB;
-    prefix = process.env.PREFIX;
 }
 
 const bot = new Discord.Client();
@@ -39,7 +37,7 @@ bot.on("ready", () => {
         `[Bot] Bot foi iniciado, com ${bot.users.cache.size} usuários, em ${bot.channels.cache.size} canais, em ${bot.guilds.cache.size} servidores.`
     );
     bot.user.setPresence({
-        activity: { name: `lo-fi - prefix: ${prefix}`, type: 2 },
+        activity: { name: `lo-fi  [Mande 'help' no privado para info]`, type: 2 },
     });
 });
 
@@ -65,8 +63,12 @@ bot.on("message", async (message) => {
         }
     }
     if (!message.guild) return;
-    if (!message.content.startsWith(prefix)) return;
 
+    let req = await guildModel.findOne({ serverId: message.guild.id });
+    prefix = req.prefix;
+
+    if (!message.content.startsWith(prefix)) return;
+    
     await guildUpdate(message.guild);
 
     const arg = message.content.slice(prefix.length).trim().split(/ +/g);
