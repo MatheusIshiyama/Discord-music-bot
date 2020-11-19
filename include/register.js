@@ -11,7 +11,7 @@ module.exports = {
                 playlists: null
             })
             await guildInfo.save();
-            console.log(`O bot entrou no servidor ${guild.name}`);
+            console.log(`O bot entrou no servidor "${guild.name}"`);
         }
     },
 
@@ -19,15 +19,17 @@ module.exports = {
         const req = await guildModel.findOne({ serverId: guild.id });
         if(req) {
             req.deleteOne({ serverId: `${guild.id}`});
-            console.log(`O bot saiu do servidor ${guild.name}`);
+            console.log(`O bot saiu do servidor "${guild.name}"`);
         }
     },
 
     async guildUpdate(guild) {
         const req = await guildModel.findOne({ serverId: guild.id });
         if(req) {
-            await guildModel.findOneAndUpdate({ serverId: guild.id}, { serverName: guild.name });
-            console.log(`${guild.name} atualizado`)
+            if(req.serverName != guild.name) {
+                console.log(`Servidor "${req.serverName}" atualizou o nome para "${guild.name}"`)
+                await guildModel.findOneAndUpdate({ serverId: guild.id}, { serverName: guild.name });
+            }
         }
     }
 }

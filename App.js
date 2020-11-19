@@ -67,7 +67,7 @@ bot.on("message", async (message) => {
     if (!message.guild) return;
     if (!message.content.startsWith(prefix)) return;
 
-    await guildModel.findOneAndUpdate({ serverId: message.guild.id }, { serverName: message.guild.name });
+    await guildUpdate(message.guild);
 
     const arg = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = arg.shift().toLowerCase();
