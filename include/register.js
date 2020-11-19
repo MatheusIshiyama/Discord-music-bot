@@ -1,4 +1,5 @@
 const guildModel = require('../models/guild');
+const userModel = require('../models/user');
 
 module.exports = {
     async guildRegister(guild) {
@@ -29,6 +30,24 @@ module.exports = {
             if(req.serverName != guild.name) {
                 console.log(`Servidor "${req.serverName}" atualizou o nome para "${guild.name}"`)
                 await guildModel.findOneAndUpdate({ serverId: guild.id}, { serverName: guild.name });
+            }
+        }
+    },
+
+    async user(user) {
+        const req = await userModel.findOne({ userId: user.id });
+        if(!req) {
+            const userInfo = new userModel({
+                userId: user.id,
+                userName: user.username,
+                playlist: null
+            });
+            await userInfo.save();
+            console.log(`${user.username} se registrou`);
+        } else {
+            if(req.userName != user.username) {
+                console.log(`Usuário: ${req.userName} atualizou o nome para ${user.username}`);
+                await userModel.findOneAndUpdate({ userId: user.id}, { userName: user.username });
             }
         }
     }
