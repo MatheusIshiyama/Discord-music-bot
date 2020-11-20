@@ -15,6 +15,7 @@ try {
     mongoKey = process.env.MONGODB;
 }
 
+let presence = false;
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
 bot.queue = new Map();
@@ -37,9 +38,6 @@ bot.on("ready", () => {
     console.log(
         `[Bot] Bot foi iniciado, com ${bot.users.cache.size} usuários, em ${bot.channels.cache.size} canais, em ${bot.guilds.cache.size} servidores.`
     );
-    bot.user.setPresence({
-        activity: { name: `lo-fi  [Mande 'help' no privado para info]`, type: 2 },
-    });
 });
 
 bot.on("guildCreate", guild => {
@@ -49,6 +47,16 @@ bot.on("guildCreate", guild => {
 bot.on("guildDelete", guild => {
     guildRemove(guild);
 })
+
+async function botPresence() {
+    presence = !presence;
+    if(presence === false) {
+        await bot.user.setPresence({ activity: { name: `Precisa de ajuda? mande "help" no privado.`, type: 1, url: 'https://twitch.tv/bravanzin' }});
+    } else {
+        await bot.user.setPresence({ activity: { name: `Lofi para ${bot.guilds.cache.size} servidores.`, type: 1, url: 'https://twitch.tv/bravanzin' }});
+    }
+}
+setInterval(botPresence, 7000);
 
 bot.on("message", async (message) => {
     if (message.author.bot) return;
