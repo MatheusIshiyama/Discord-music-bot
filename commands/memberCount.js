@@ -1,10 +1,10 @@
 const { MessageEmbed } = require("discord.js");
-const guildModel = require('../models/guild');
-const { countUpdate } = require('../include/memberUpdate');
+const guildModel = require("../models/guild");
+const { countUpdate } = require("../include/memberUpdate");
 
 exports.run = async (bot, message, args) => {
     let channelsInfo = [];
-    let channel;
+    let content;
     let resultsEmbed = new MessageEmbed()
         .setTitle(`Escolha um canal de voz`)
         .setColor("3498DB");
@@ -13,7 +13,7 @@ exports.run = async (bot, message, args) => {
         (channels) => channels.type === "voice"
     );
     channels.map((channel) => {
-        resultsEmbed.addField(channel.name, 'canal de voz');
+        resultsEmbed.addField(channel.name, "canal de voz");
         channelsInfo.push({ id: channel.id, name: channel.name });
     });
 
@@ -30,18 +30,29 @@ exports.run = async (bot, message, args) => {
         errors: ["time"],
     });
     message.channel.activeCollector = false;
-    m.delete()
-    response.map(msg => {
-        channel = msg.content;
+    m.delete();
+    response.map((msg) => {
+        content = msg.content;
     });
-    message.channel.send(`Canal escolhido \`${channel}\``);
-    const voiceChannel = channelsInfo.find(channelInfo => channelInfo.name === channel);
-    await guildModel.findOneAndUpdate({ serverId: message.guild.id }, { memberCountId: voiceChannel.id });
+    if (content === "cancel") {
+        return message.reply("operacao cancelada");
+    }
+    const voiceChannel = channelsInfo.find(
+        (channelInfo) => channelInfo.name === content
+    );
+    if (voiceChannel != null) {
+        message.channel.send(`Canal escolhido \`${content}\``);
+        await guildModel.findOneAndUpdate(
+            { serverId: message.guild.id },
+            { memberCountId: voiceChannel.id }
+        );
+    } else {
+        message.channel.send("Canal escolhido não existe, tente novamente");
+    }
 
     countUpdate(message.guild);
-
 };
 
 exports.info = {
-    name: "mcount"
-}
+    name: "mcount",
+};
