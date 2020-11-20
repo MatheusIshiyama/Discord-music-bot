@@ -9,7 +9,7 @@ module.exports = {
                 footer: {
                     text: "by Bravanzin",
                     icon_url:
-                        "https://cdn.discordapp.com/app-icons/690359745420591415/8ca3f1829ce42cc9935bd562c3ead3f9.png",
+                        "https://cdn.discordapp.com/app-icons/688571869275881503/b5bfeb52ddae6f9492925772a59e1f8d.png",
                 },
             },
         });
@@ -25,7 +25,7 @@ module.exports = {
                 footer: {
                     text: "by Bravanzin",
                     icon_url:
-                        "https://cdn.discordapp.com/app-icons/690359745420591415/8ca3f1829ce42cc9935bd562c3ead3f9.png",
+                        "https://cdn.discordapp.com/app-icons/688571869275881503/b5bfeb52ddae6f9492925772a59e1f8d.png",
                 },
             },
         });
