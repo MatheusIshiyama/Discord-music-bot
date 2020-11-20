@@ -5,10 +5,7 @@ const Guild = Schema({
     serverName: String,
     prefix: String,
     playlists: Array,
-    memberCount: {
-        channelId: String,
-        onOff: Boolean
-    }
+    memberCountId: String
 })
 
 module.exports = model('Guild', Guild)
