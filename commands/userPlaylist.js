@@ -37,7 +37,7 @@ exports.run = async (bot, message, args) => {
         })
         if(content == 'cancel') {
             embedReply("User Playlist", "Operação cancelada", message);
-        } else if(content.includes('youtube.com/playlist')) {
+        } else {
             embedReply("User Playlist", `playlist solicitada ${content}`, message);
         }
     } else if (args == 'remove') {
