@@ -29,7 +29,7 @@ fs.readdir("./commands/", (err, files) => {
     let commandjs = files.filter((f) => f.split(".").pop() == "js");
     commandjs.forEach((f, i) => {
         let props = require(`./commands/${f}`);
-        console.log(`[Bot] Comando ${f} carregado com sucesso.`);
+        console.log(`[Command] Comando ${f} carregado com sucesso.`);
         bot.commands.set(props.info.name, props);
     });
 });
