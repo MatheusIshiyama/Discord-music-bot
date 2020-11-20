@@ -9,7 +9,11 @@ module.exports = {
                 serverId: guild.id,
                 serverName: guild.name,
                 prefix: ";",
-                playlists: null
+                playlists: null,
+                memberCount: {
+                    channelId: null,
+                    onOff: false
+                }
             })
             await guildInfo.save();
             console.log(`O bot entrou no servidor "${guild.name}"`);
