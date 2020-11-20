@@ -3,7 +3,6 @@ const guildModel = require('../models/guild');
 const { MessageEmbed } = require('discord.js');
 const { embedReply } = require('../include/messages');
 
-
 exports.run = async (bot, message, args) => {
     const userReq = await userModel.findOne({ userId: message.author.id });
     const guildReq = await guildModel.findOne({ serverId: message.guild.id });
