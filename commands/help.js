@@ -12,7 +12,7 @@ exports.run = async (bot, message, args) => {
             title: "Help",
             thumbnail: {
                 url:
-                    "https://cdn.discordapp.com/app-icons/690359745420591415/8ca3f1829ce42cc9935bd562c3ead3f9.png",
+                bot.user.avatarURL()
             },
             description: `
         ✅ ${bot.user.username} está ativo em ${bot.guilds.cache.size} servidores
@@ -44,7 +44,7 @@ exports.run = async (bot, message, args) => {
             footer: {
                 text: "by Bravanzin",
                 icon_url:
-                    "https://cdn.discordapp.com/app-icons/690359745420591415/8ca3f1829ce42cc9935bd562c3ead3f9.png",
+                bot.user.avatarURL()
             },
         },
     });
