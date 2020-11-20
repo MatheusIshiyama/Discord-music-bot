@@ -6,6 +6,7 @@ const guildModel = require('./models/guild');
 const userModel = require('./models/user');
 const { embedSend } = require('./include/messages');
 const { guildRegister, guildRemove, guildUpdate, user } = require('./include/register');
+const { countUpdate } = require('./include/memberUpdate');
 try {
     const config = require("./config.json");
     discordKey = config.discordKey;
@@ -46,6 +47,14 @@ bot.on("guildCreate", guild => {
 
 bot.on("guildDelete", guild => {
     guildRemove(guild);
+})
+
+bot.on("guildMemberAdd", user => {
+    countUpdate(user.guild);
+})
+
+bot.on("guildMemberRemove", user => {
+    countUpdate(user.guild);
 })
 
 async function botPresence() {
