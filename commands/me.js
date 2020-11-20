@@ -9,7 +9,7 @@ exports.run = async (bot, message, args) => {
             color: 3447003,
             title: userInfo.username,
             thumbnail: {
-                url: userInfo.avatarURL(),
+                url: userInfo.avatarURL() ? userInfo.avatarURL() : "https://github.com/MatheusIshiyama/BravanzinBot/blob/master/assets/discordAvatar.jpg?raw=true",
             },
             fields: [
                 {
@@ -21,7 +21,7 @@ exports.run = async (bot, message, args) => {
             footer: {
                 text: "by Bravanzin",
                 icon_url:
-                    "https://cdn.discordapp.com/app-icons/690359745420591415/8ca3f1829ce42cc9935bd562c3ead3f9.png",
+                    bot.user.avatarURL(),
             },
         },
     });
