@@ -40,7 +40,8 @@ module.exports = {
             const userInfo = new userModel({
                 userId: user.id,
                 userName: user.username,
-                playlist: null
+                playlist: null,
+                favSong: null
             });
             await userInfo.save();
             console.log(`${user.username} se registrou`);
