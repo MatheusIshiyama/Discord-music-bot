@@ -3,6 +3,7 @@ const guildModel = require("../models/guild");
 const { countUpdate } = require("../include/memberUpdate");
 
 exports.run = async (bot, message, args) => {
+    const userReq = message.author.id;
     let channelsInfo = [];
     let content;
     let resultsEmbed = new MessageEmbed()
@@ -20,7 +21,7 @@ exports.run = async (bot, message, args) => {
     const m = await message.channel.send(resultsEmbed);
 
     function filter(msg) {
-        return msg != null;
+        return userReq === msg.author.id;
     }
 
     message.channel.ativeCollector = true;
