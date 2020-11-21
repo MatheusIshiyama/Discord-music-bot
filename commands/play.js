@@ -21,6 +21,7 @@ exports.run = async (bot, message, args) => {
             message
         );
     }
+    
     //* verificar se quem solicitou está no mesmo chat de voz que o bot
     if (serverQueue && channel !== message.guild.me.voice.channel) {
         return embedReply(
@@ -31,7 +32,7 @@ exports.run = async (bot, message, args) => {
     }
 
     //* verificar se há link de vídeo
-    if (!args.length || !args.includes("youtube.com")) {
+    if (!args || !args.includes("youtube.com")) {
         return embedReply("Play", `Use ${prefix}play <Youtube URL>`, message);
     }
 
