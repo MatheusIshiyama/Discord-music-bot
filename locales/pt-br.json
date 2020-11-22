@@ -1,11 +1,11 @@
 {
     "clear": {
         "stopped": "Não há nada tocando.",
-        "clear": " limpou a fila de músicas."
+        "clear": " limpou a lista de reprodução."
     },
     "join": {
         "channel": "Você precisa entrar em um canal de voz primeiro!",
-        "permission": "Não foi possível conectar no canal de voz, faltando permissão."
+        "permission": "Não foi possível conectar no canal de voz, faltando permissão!"
     },
     "locale": {
         "support": "Eu tenho suporte para `pt-br` and `en-us`.",
@@ -40,5 +40,16 @@
         "stopped": "Não há nada tocando.",
         "paused": " pausou a música."
     },
-    "ping": "A latência é "
+    "ping": "A latência é ",
+    "play": {
+        "channel": "Você precisa entrar em um canal de voz primeiro!",
+        "sameChannel": "Você precisa estar conectado no mesmo chat de voz que ",
+        "permission": {
+            "connect": "Não foi possível conectar no canal de voz, faltando permissão!",
+            "speak": "Não posso falar neste chat de voz, verifique se eu tenho as permissões necessárias!"
+        },
+        "added": "foi adicionado na lista de reprodução por",
+        "playing": "está tocando agora, solicitado por",
+        "error": "Não foi possivel conectar ao chat de voz: "
+    }
 }
