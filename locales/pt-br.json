@@ -35,5 +35,9 @@
         },
         "canceled": "Operação cancelada.",
         "invalid": "Canal escolhido não existe, tente novamente."
+    },
+    "pause": {
+        "stopped": "Não há nada tocando.",
+        "paused": " pausou a música."
     }
 }

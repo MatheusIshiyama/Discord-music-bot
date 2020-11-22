@@ -35,5 +35,9 @@
         },
         "canceled": "Operation canceled.",
         "invalid": "Channel chosen doesn't exist, try again."
+    },
+    "pause": {
+        "stopped": "There is nothing playing.",
+        "paused": " paused the music."
     }
 }
