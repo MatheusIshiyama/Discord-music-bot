@@ -1,3 +1,10 @@
 {
-    
+    "locale": {
+        "support": "Eu tenho suporte para `pt-br` and `en-us`",
+        "current": "O idioma atual é `Português (pt-br)`",
+        "change": [
+            "Para editar o idioma, digite: ",
+            "locale pt-br` para mudar para `Inglês`"
+        ]
+    }
 }
