@@ -65,5 +65,14 @@
         "added": "foi adicionado na lista de reprodução por",
         "playing": "está tocando agora, solicitado por",
         "error": "Não foi possivel conectar ao chat de voz: "
+    },
+    "prefix": {
+        "desc": [
+            "O prefix atual é",
+            "Para editar, use",
+            "prefix <prefix desejado>"
+        ],
+        "max": "O prefix pode ter tamanho máximo de 2(dois) caracteres.",
+        "change": "Prefix alterado para"
     }
 }

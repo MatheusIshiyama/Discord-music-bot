@@ -65,5 +65,14 @@
         "added": "has been added to the queue by",
         "playing": "is playing now, requested by",
         "error": "Could not join the channel: "
+    },
+    "prefix": {
+        "desc": [
+            "The current prefix is",
+            "To edit, use",
+            "prefix <intended prefix>"
+        ],
+        "max": "The prefix can have a maximum length of 2(two) characters.",
+        "change": "Prefix changed to"
     }
 }
