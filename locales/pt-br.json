@@ -14,5 +14,13 @@
             "Para editar o idioma, digite: ",
             "locale pt-br` para mudar para `Inglês`."
         ]
+    },
+    "loop": {
+        "queue": "Não há nada tocando.",
+        "state": {
+            "desc": "Loop agora está ",
+            "on": "ligado",
+            "off": "desligado"
+        }
     }
 }

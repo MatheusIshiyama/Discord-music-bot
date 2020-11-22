@@ -14,5 +14,13 @@
             "To edit language, type: ",
             "locale pt-br` to change to `Portuguese.`"
         ]
+    },
+    "loop": {
+        "queue": "There is nothing playing.",
+        "state": {
+            "desc": "Loop is now ",
+            "on": "on",
+            "off": "off"
+        }
     }
 }
