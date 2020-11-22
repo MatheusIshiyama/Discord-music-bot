@@ -25,5 +25,15 @@
     },
     "me": {
         "playlist": "O usuário não adicionou uma playlist ainda."
+    },
+    "memberCount": {
+        "desc": "Escolha um canal de voz.",
+        "type": "Canal de voz",
+        "cancel": {
+            "title": "Deseja cancelar esta operação?",
+            "desc": "Digite `cancel` para cancelar."
+        },
+        "canceled": "Operação cancelada.",
+        "invalid": "Canal escolhido não existe, tente novamente."
     }
 }
