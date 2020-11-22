@@ -1,19 +1,23 @@
+const userModel = require('../models/user');
+const messageEmbed = require('../include/messageEmbed');
 const { embedSend, embedReply } = require("../include/messages");
 
 exports.run = async (bot, message, args) => {
+    const userReq = await userModel.findOne({ id: message.author.id });
+    const { pause } = require(`../locales/${userReq.locale}.json`);
+
     const queue = message.client.queue.get(message.guild.id);
+    messageEmbed.setTitle("Pause");
     if (!queue) {
-        return embedReply("Pause", "Não estou tocando nada", message);
+        messageEmbed.setDescription(pause.stopped);
+        return message.channel.send(messageEmbed);
     }
 
     if (queue.playing) {
         queue.playing = false;
         queue.connection.dispatcher.pause(true);
-        return embedSend(
-            "Pause",
-            `${message.author} ⏸ pausou a música.`,
-            message
-        );
+        messageEmbed.setDescription(`${message.author.username} ${pause.paused}`);
+        return message.channel.send(messageEmbed);
     }
 };
 
