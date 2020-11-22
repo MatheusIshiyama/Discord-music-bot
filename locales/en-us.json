@@ -22,5 +22,8 @@
             "on": "on",
             "off": "off"
         }
+    },
+    "me": {
+        "playlist": "The user has not added a playlist yet."
     }
 }

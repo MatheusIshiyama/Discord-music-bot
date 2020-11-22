@@ -22,5 +22,8 @@
             "on": "ligado",
             "off": "desligado"
         }
+    },
+    "me": {
+        "playlist": "O usuário não adicionou uma playlist ainda."
     }
 }
