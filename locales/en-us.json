@@ -54,5 +54,16 @@
     },
     "playing": {
         "stopped": "There is nothing playing."
+    },
+    "playlist": {
+        "channel": "You need to join a voice channel first!",
+        "sameChannel": "You must be in the same channel as ",
+        "permission": {
+            "connect": "Cannot connect to voice channel, missing permissions!",
+            "speak": "I cannot speak in this voice channel, make sure I have the proper permissions!"
+        },
+        "added": "has been added to the queue by",
+        "playing": "is playing now, requested by",
+        "error": "Could not join the channel: "
     }
 }

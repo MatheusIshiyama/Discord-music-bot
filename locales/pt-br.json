@@ -54,5 +54,16 @@
     },
     "playing": {
         "stopped": "Não há nada tocando."
+    },
+    "play": {
+        "channel": "Você precisa entrar em um canal de voz primeiro!",
+        "sameChannel": "Você precisa estar conectado no mesmo chat de voz que ",
+        "permission": {
+            "connect": "Não foi possível conectar no canal de voz, faltando permissão!",
+            "speak": "Não posso falar neste chat de voz, verifique se eu tenho as permissões necessárias!"
+        },
+        "added": "foi adicionado na lista de reprodução por",
+        "playing": "está tocando agora, solicitado por",
+        "error": "Não foi possivel conectar ao chat de voz: "
     }
 }
