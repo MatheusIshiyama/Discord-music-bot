@@ -1,4 +1,8 @@
 {
+    "clear": {
+        "stopped": "There is nothing playing.",
+        "clear": " cleared the queue."
+    },
     "locale": {
         "support": "I have support to `pt-br` and `en-us`",
         "current": "Current language is `English (en-us)` ",

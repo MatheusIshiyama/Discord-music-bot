@@ -1,4 +1,8 @@
 {
+    "clear": {
+        "stopped": "Não há nada tocando.",
+        "clear": " limpou a fila de músicas."
+    },
     "locale": {
         "support": "Eu tenho suporte para `pt-br` and `en-us`",
         "current": "O idioma atual é `Português (pt-br)`",
