@@ -55,7 +55,7 @@
     "playing": {
         "stopped": "Não há nada tocando."
     },
-    "play": {
+    "playlist": {
         "channel": "Você precisa entrar em um canal de voz primeiro!",
         "sameChannel": "Você precisa estar conectado no mesmo chat de voz que ",
         "permission": {
