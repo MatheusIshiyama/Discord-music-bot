@@ -38,7 +38,7 @@
     },
     "pause": {
         "stopped": "There is nothing playing.",
-        "paused": " paused the music."
+        "paused": "paused the music."
     },
     "ping": "The latency is ",
     "play": {
@@ -83,6 +83,10 @@
             "and more",
             "songs in the queue."
         ],
-        "enjoy": "Enjoy the song!"
+        "enjoy": "Enjoy the music!"
+    },
+    "resume": {
+        "queue": "There is nothing playing.",
+        "resumed": "resumed the music."
     }
 }

@@ -38,7 +38,7 @@
     },
     "pause": {
         "stopped": "Não há nada tocando.",
-        "paused": " pausou a música."
+        "paused": "pausou a música."
     },
     "ping": "A latência é ",
     "play": {
@@ -84,5 +84,9 @@
             "músicas na lista de reprodução."
         ],
         "enjoy": "Aproveite a música!"
+    },
+    "resume": {
+        "queue": "Não há nada tocando.",
+        "resumed": "ligou a música."
     }
 }
