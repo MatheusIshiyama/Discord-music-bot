@@ -1,63 +1,55 @@
 const Youtube = require('simple-youtube-api');
+const userModel = require('../models/user');
+const guildModel = require('../models/guild');
+const messageEmbed = require('../include/messageEmbed');
 const ytdl = require("ytdl-core");
 const { play } = require("../include/play");
-const { embedSend, embedReply } = require("../include/messages");
 try {
     const config = require("../config.json");
-    prefix = config.prefix;
     youtubeKey = config.youtubeKey
 } catch (error) {
-    prefix = process.env.PREFIX;
     youtubeKey = process.env.YOUTUBE_KEY
 }
 const youtube = new Youtube(youtubeKey);
 
 exports.run = async (bot, message, args) => {
+    const userReq = await userModel.findOne({ id: message.author.id });
+    const guildReq = await guildModel.findOne({ serverId: message.guild.id });
+    const { playlist } = require(`../locales/${userReq.locale}.json`);
+    const prefix = guildReq.prefix;
+
     const { channel } = message.member.voice;
 
     const serverQueue = message.client.queue.get(message.guild.id);
+    messageEmbed.setTitle("Playlist");
 
     //* verificar se quem solicitou está em um chat de voz
     if (!channel) {
-        return embedReply(
-            "Playlist",
-            "Entre em algum chat de voz para solicitar uma música",
-            message
-        );
+        messageEmbed.setDescription(playlist.channel);
+        return message.channel.send(messageEmbed);
     }
+
     //* verificar se quem solicitou está no mesmo chat de voz que o bot
     if (serverQueue && channel !== message.guild.me.voice.channel) {
-        return embedReply(
-            "Playlist",
-            "Para solicitar uma música, você precisa estar conectado no mesmo chat de voz que eu",
-            message
-        );
+        messageEmbed.setDescription(playlist.sameChannel);
+        return message.channel.send(messageEmbed);
     }
 
     //* verificar se há link de vídeo
-    if (!args || !args.length || !args.includes("youtube.com/playlist")) {
-        return embedReply(
-            "Playlist",
-            `Use ${prefix}playlist <Youtube Playlist URL> | ${prefix}play <Youtube URL> | ${prefix}search <pesquisa>`,
-            message
-        );
+    if (!args || !args.includes("youtube.com/playlist")) {
+        messageEmbed.setDescription(`Use ${prefix}playlist <Youtube Playlist URL> | ${prefix}play <Youtube URL>`);
+        return message.channel.send(messageEmbed);
     }
 
     //* verifcar permissões
     const permissions = channel.permissionsFor(message.client.user);
     if (!permissions.has("CONNECT")) {
-        return embedReply(
-            "Playlist",
-            "Não tenho permissão para entrar no chat de voz",
-            message
-        );
+        messageEmbed.setDescription(playlist.permisson.connect);
+        return message.channel.send(messageEmbed);
     }
     if (!permissions.has("SPEAK")) {
-        return embedReply(
-            "Playlist",
-            "Não tenho permissão para reproduzir neste chat de voz, verifique as permissões",
-            message
-        );
+        messageEmbed.setDescription(playlist.permission.speak);
+        return message.channel.send(messageEmbed);
     }
 
     const queueConstruct = {
@@ -71,9 +63,7 @@ exports.run = async (bot, message, args) => {
     };
 
     let playlistInfo,
-        playlistSize,
-        songs,
-        song = null;
+        songs = null;
 
     try {
         playlistInfo = await youtube.getPlaylist(args);
@@ -99,6 +89,11 @@ exports.run = async (bot, message, args) => {
     
     if(!serverQueue) {
         message.client.queue.set(message.guild.id, queueConstruct);
+        messageEmbed.setDescription(`\`${playlistInfo.title}\` ${playlist.playing} \`${message.author.username}\``);
+        message.channel.send(messageEmbed);
+    } else {
+        messageEmbed.setDescription(`\`${playlistInfo.title}\` ${playlist.added} \`${message.author.username}\``);
+        return message.channel.send(messageEmbed);
     }
 
     //* tocar musica
@@ -110,11 +105,8 @@ exports.run = async (bot, message, args) => {
         console.error(error);
         message.client.queue.delete(message.guild.id);
         await channel.leave();
-        return embedSend(
-            "Playlist",
-            `Não foi possivel conectar ao chat de voz: ${error}`,
-            message
-        );
+        messageEmbed.setDescription(playlist.error + error);
+        message.channel.send(messageEmbed);
     }
 };
 
