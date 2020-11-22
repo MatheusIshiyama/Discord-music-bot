@@ -46,6 +46,7 @@ module.exports = {
             const userInfo = new userModel({
                 id: user.id,
                 name: user.username,
+                locale: "en-us",
                 playlist: {
                     title: null,
                     url: null,
