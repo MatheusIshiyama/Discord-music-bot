@@ -1,32 +1,22 @@
-const userGuild = require('../models/user');
+const userModel = require("../models/user");
+const { MessageEmbed } = require('discord.js');
 
 exports.run = async (bot, message, args) => {
     const userInfo = message.author;
-    const user = await userGuild.findOne({ userId: userInfo.id });
+    const userReq = await userModel.findOne({ id: message.author.id });
+    const { me } = require(`../locales/${userReq.locale}.json`);
 
-    message.channel.send({
-        embed: {
-            color: 3447003,
-            title: userInfo.username,
-            thumbnail: {
-                url: userInfo.avatarURL() ? userInfo.avatarURL() : "https://github.com/MatheusIshiyama/BravanzinBot/blob/master/assets/discordAvatar.jpg?raw=true",
-            },
-            fields: [
-                {
-                    name: 'Playlist',
-                    value: user.playlist ? user.playlist : "O usuário não adicionou uma playlist ainda."
-                },
-            ],
-            timestamp: new Date(),
-            footer: {
-                text: "by Bravanzin",
-                icon_url:
-                    bot.user.avatarURL(),
-            },
-        },
-    });
-}
+    const msg = new MessageEmbed()
+        .setTitle(message.author.username)
+        .setColor("3498DB")
+        .setThumbnail(userInfo.avatarURL() ? userInfo.avatarURL() : "https://github.com/MatheusIshiyama/BravanzinBot/blob/master/assets/discordAvatar.jpg?raw=true")
+        .setTimestamp(new Date())
+        .setFooter(`by ${bot.user.username}`, bot.user.avatarURL())
+        .addField("Playlist", (userReq.playlist.url ? userReq.playlist.url : me.playlist));
+    
+    message.channel.send(msg);
+};
 
 exports.info = {
-    name: "me"
-}
+    name: "me",
+};
