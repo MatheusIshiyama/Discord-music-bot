@@ -39,5 +39,6 @@
     "pause": {
         "stopped": "Não há nada tocando.",
         "paused": " pausou a música."
-    }
+    },
+    "ping": "A latência é "
 }

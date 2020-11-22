@@ -39,5 +39,6 @@
     "pause": {
         "stopped": "There is nothing playing.",
         "paused": " paused the music."
-    }
+    },
+    "ping": "The latency is "
 }
