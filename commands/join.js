@@ -1,21 +1,21 @@
-exports.run = (bot, message, args) => {
-    //* verificar se quem solicitou está em um chat de voz
+const userModel = require('../models/user');
+const messageEmbed = require('../include/messageEmbed');
+
+exports.run = async (bot, message, args) => {
+    const userReq = await userModel.findOne({ id: message.author.id });
+    const { join } = require(`../locales/${userReq.locale}.json`);
+    const { channel } = message.member.voice;
+
+    messageEmbed.setTitle("Join")
     if (!channel) {
-        return embedReply(
-            "Play",
-            "Entre em algum chat de voz para que eu possa entrar",
-            message
-        );
+        messageEmbed.setDescription(join.channel);
+        return message.channel.send(messageEmbed);
     }
 
-    //* verifcar permissões
     const permissions = channel.permissionsFor(message.client.user);
     if (!permissions.has("CONNECT")) {
-        return embedReply(
-            "Play",
-            "Não tenho permissão para entrar no chat de voz",
-            message
-        );
+        messageEmbed.setDescription(join.permission);
+        return message.channel.send(messageEmbed);
     }
     message.member.voice.channel.join();
 };
