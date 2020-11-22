@@ -11,7 +11,7 @@
         "support": "Eu tenho suporte para `pt-br` and `en-us`.",
         "current": "O idioma atual é `Português (pt-br)`.",
         "change": [
-            "Para editar o idioma, digite: ",
+            "Para editar o idioma, digite:",
             "locale pt-br` para mudar para `Inglês`."
         ]
     },
@@ -40,24 +40,24 @@
         "stopped": "Não há nada tocando.",
         "paused": "pausou a música."
     },
-    "ping": "A latência é ",
+    "ping": "A latência é",
     "play": {
         "channel": "Você precisa entrar em um canal de voz primeiro!",
-        "sameChannel": "Você precisa estar conectado no mesmo chat de voz que ",
+        "sameChannel": "Você precisa estar conectado no mesmo chat de voz que",
         "permission": {
             "connect": "Não foi possível conectar no canal de voz, faltando permissão!",
             "speak": "Não posso falar neste chat de voz, verifique se eu tenho as permissões necessárias!"
         },
         "added": "foi adicionado na lista de reprodução por",
         "playing": "está tocando agora, solicitado por",
-        "error": "Não foi possivel conectar ao chat de voz: "
+        "error": "Não foi possivel conectar ao chat de voz:"
     },
     "playing": {
         "stopped": "Não há nada tocando."
     },
     "playlist": {
         "channel": "Você precisa entrar em um canal de voz primeiro!",
-        "sameChannel": "Você precisa estar conectado no mesmo chat de voz que ",
+        "sameChannel": "Você precisa estar conectado no mesmo chat de voz que",
         "permission": {
             "connect": "Não foi possível conectar no canal de voz, faltando permissão!",
             "speak": "Não posso falar neste chat de voz, verifique se eu tenho as permissões necessárias!"
@@ -88,5 +88,9 @@
     "resume": {
         "queue": "Não há nada tocando.",
         "resumed": "ligou a música."
+    },
+    "search": {
+        "title": "Digite o número da música que queira tocar (ex. 1)",
+        "desc": "Resultados para:"
     }
 }

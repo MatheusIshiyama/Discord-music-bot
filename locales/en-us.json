@@ -88,5 +88,9 @@
     "resume": {
         "queue": "There is nothing playing.",
         "resumed": "resumed the music."
+    },
+    "search": {
+        "title": "Enter the number of the song you want to play (ex. 1)",
+        "desc": "Results for:"
     }
 }
