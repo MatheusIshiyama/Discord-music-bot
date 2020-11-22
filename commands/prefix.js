@@ -1,17 +1,29 @@
+const userModel = require('../models/user');
 const guildModel = require('../models/guild');
-const { embedReply } = require('../include/messages');
+const messageEmbed = require("../include/messageEmbed");
 
 exports.run = async (bot, message, args) => {
-    const req = await guildModel.findOne({ serverId: message.guild.id });
-    let prefix = req.prefix;
+    const userReq = await userModel.findOne({ id: message.author.id });
+    const guildReq = await guildModel.findOne({ serverId: message.guild.id });
+    const localePrefix = require(`../locales/${userReq.locale}.json`);
+    const locale = localePrefix.prefix;
+    const prefix = guildReq.prefix;
+
+    messageEmbed.setTitle("Prefix");
+
     if(!args) {
-        return embedReply("Prefix", `O prefix atual é \`${prefix}\`, para editar use \`${prefix}prefix <prefix desejado>\``, message);
+        messageEmbed.setDescription(`${locale.desc[0]} \`${prefix}\`\n${locale.desc[1]} \`${prefix}${locale.desc[2]}\`.`);
+        return message.channel.send(messageEmbed);
     }
+
     if(args.length > 2) {
-        return embedReply("Prefix", "O prefix tem tamanho máximo de 2(dois) caracteres");
+        messageEmbed.setDescription(locale.max);
+        return message.channel.send(messageEmbed);
     }
+
     await guildModel.findOneAndUpdate({ serverId: message.guild.id }, { prefix: args });
-    return embedReply("Prefix", `Prefix alterado para \`${args}\``, message);
+    messageEmbed.setDescription(`${locale.change} \`${args}\``);
+    message.channel.send(messageEmbed);
 }
 
 exports.info = {
