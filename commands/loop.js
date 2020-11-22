@@ -1,17 +1,21 @@
-const { embedSend, embedReply } = require("../include/messages");
+const userModel = require('../models/user');
+const messageEmbed = require('../include/messageEmbed');
 
 exports.run = async (bot, message, args) => {
-    const queue = message.client.queue.get(message.guild.id);
-    if (!queue) {
-        return embedReply("Loop", "Não estou tocando nada", message);
-    }
+    const userReq = await userModel.findOne({ id: message.author.id });
+    const { loop } = require(`../locales/${userReq.locale}.json`);
 
-    queue.loop = !queue.loop;
-    return embedSend(
-        "Loop",
-        `O loop está ${queue.loop ? "**ligado**" : "**desligado**"}`,
-        message
-    );
+    const queue = message.client.queue.get(message.guild.id);
+    messageEmbed.setTitle("Loop");
+
+    if (!queue) {
+        messageEmbed.setDescription(loop.queue);
+        return message.channel.send(messageEmbed);
+    } else {
+        queue.loop = !queue.loop;
+        messageEmbed.setDescription(`${loop.state.desc} \`${queue.loop ? loop.state.on : loop.state.off}\``);
+        return message.channel.send(messageEmbed);
+    }
 };
 
 exports.info = {
