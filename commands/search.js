@@ -1,4 +1,7 @@
 const Youtube = require("simple-youtube-api");
+const userModel = require('../models/user');
+const guildModel = require('../models/guild');
+const messageEmbed = require('../include/messageEmbed');
 const { MessageEmbed } = require("discord.js");
 try {
     const config = require("../config.json");
@@ -9,15 +12,28 @@ try {
 const youtube = new Youtube(youtubeKey);
 
 exports.run = async (bot, message, args) => {
+    const userReq = userModel.findOne({ id: message.author.id });
+    const guildReq = guildModel.findOne({ serverId: message.guild.id });
+    const prefix = guildReq.prefix;
+    const { search } = require(`../locales/${userReq}.json`);
+
+    messageEmbed.setTitle("Search");
+
     //* verificar se há link de vídeo
     if (!args.length) {
-        return embedReply("Search", `Use ${prefix}search <video>`, message);
+        messageEmbed.setDescription(`Use ${prefix}search <video>`);
+        return message.channel.send(messageEmbed);
     }
 
     let resultsEmbed = new MessageEmbed()
-        .setTitle(`**Digite o número da música que queira tocar**`)
-        .setDescription(`Resultados para: ${args}`)
-        .setColor("3498DB");
+        .setTitle(search.title)
+        .setDescription(`${search.desc} ${args}`)
+        .setColor("3498DB")
+        .setThumbnail(
+            "https://cdn.discordapp.com/app-icons/688571869275881503/b5bfeb52ddae6f9492925772a59e1f8d.png?size=512"
+        )
+        .setTimestamp(new Date())
+        .setFooter("by Bravanzin", "https://cdn.discordapp.com/app-icons/688571869275881503/b5bfeb52ddae6f9492925772a59e1f8d.png?size=512");
 
     try {
         const results = await youtube.searchVideos(args, 10);
