@@ -12,7 +12,7 @@ exports.run = async (bot, message, args) => {
             title: "Help",
             thumbnail: {
                 url:
-                bot.user.avatarURL()
+                "https://cdn.discordapp.com/app-icons/688571869275881503/b5bfeb52ddae6f9492925772a59e1f8d.png?size=512"
             },
             description: `
         ✅ ${bot.user.username} está ativo em ${bot.guilds.cache.size} servidores
