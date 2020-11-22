@@ -14,7 +14,7 @@ exports.run = async (bot, message, args) => {
     } else {
         queue.songs = [];
         messageEmbed.setDescription(message.author.username + clear.clear);
-        message.channel.send(messageEmbed);
+        return message.channel.send(messageEmbed);
     }
 };
 
