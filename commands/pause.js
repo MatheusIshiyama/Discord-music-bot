@@ -1,6 +1,5 @@
 const userModel = require('../models/user');
 const messageEmbed = require('../include/messageEmbed');
-const { embedSend, embedReply } = require("../include/messages");
 
 exports.run = async (bot, message, args) => {
     const userReq = await userModel.findOne({ id: message.author.id });
