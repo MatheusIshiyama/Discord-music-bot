@@ -74,5 +74,15 @@
         ],
         "max": "O prefix pode ter tamanho máximo de 2(dois) caracteres.",
         "change": "Prefix alterado para"
+    },
+    "queue": {
+        "queue": "Não há nada tocando.",
+        "queueDesc": "músicas na lista de reprodução.",
+        "playing": "Tocando:",
+        "size": [
+            "e mais",
+            "músicas na lista de reprodução."
+        ],
+        "enjoy": "Aproveite a música!"
     }
 }

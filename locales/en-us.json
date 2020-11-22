@@ -74,5 +74,15 @@
         ],
         "max": "The prefix can have a maximum length of 2(two) characters.",
         "change": "Prefix changed to"
+    },
+    "queue": {
+        "queue": "There is nothing playing.",
+        "queueDesc": "songs in the queue.",
+        "playing": "Playing:",
+        "size": [
+            "and more",
+            "songs in the queue."
+        ],
+        "enjoy": "Enjoy the song!"
     }
 }
