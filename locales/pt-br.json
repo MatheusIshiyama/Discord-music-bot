@@ -51,5 +51,8 @@
         "added": "foi adicionado na lista de reprodução por",
         "playing": "está tocando agora, solicitado por",
         "error": "Não foi possivel conectar ao chat de voz: "
+    },
+    "playing": {
+        "stopped": "Não há nada tocando."
     }
 }

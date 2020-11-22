@@ -51,5 +51,8 @@
         "added": "has been added to the queue by",
         "playing": "is playing now, requested by",
         "error": "Could not join the channel: "
+    },
+    "playing": {
+        "stopped": "There is nothing playing."
     }
 }
