@@ -3,6 +3,41 @@
         "stopped": "There is nothing playing.",
         "clear": " cleared the queue."
     },
+    "help": {
+        "desc": [
+            "it's active in",
+            "servers.",
+            "Playing music for",
+            "users."
+        ],
+        "command": {
+            "title": "Commands",
+            "desc": "command"
+        },
+        "commands": {
+            "clear": "clear queue",
+            "join": "join in a voice channel",
+            "leave": "leave the voice channel",
+            "locale": "change bot languange",
+            "loop": "loop queue",
+            "me": "show profile",
+            "mcount": "choose a voice channel to show users amount in the server",
+            "pause": "pause music",
+            "ping": "show ping",
+            "play": "play music by link",
+            "playing": "show music that's playing",
+            "playlist": "play youtube playlist",
+            "prefix": "change server's prefix",
+            "queue": "show queue",
+            "resume": "resume music",
+            "search": "search music on youtube",
+            "server": "show server's information",
+            "shuffle": "shuffle the queue",
+            "skip": "skip current music",
+            "stop": "stop music",
+            "up": "show user's playlist"
+        }
+    },
     "join": {
         "channel": "You need to join a voice channel first!",
         "permission": "Cannot connect to voice channel, missing permissions!"

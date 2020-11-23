@@ -3,6 +3,44 @@
         "stopped": "Não há nada tocando.",
         "clear": " limpou a lista de reprodução."
     },
+    "help": {
+        "desc": [
+            "está ativo em",
+            "servidores.",
+            "Tocando música para",
+            "usuários."
+        ],
+        "command": {
+            "title": "Comandos",
+            "desc": "comando"
+        },
+        "commands": {
+            "clear": "limpar lista de reprodução",
+            "join": "entrar em um chat de voz",
+            "leave": "sair de um chat de voz",
+            "locale": "alterar o idioma do bot",
+            "loop": "repetir lista de reprodução",
+            "me": "mostrar o perfil do usuário",
+            "mcount": "selecionar um chat de voz para mostrar a quantidade de usuários no servidor",
+            "pause": "pause música",
+            "ping": "mostrar o ping",
+            "play": "tocar música pelo link",
+            "playing": "mostrar música que está tocando",
+            "playlist": "tocar playlist do youtube",
+            "prefix": "alterar o prefix do servidor",
+            "queue": "mostrar lista de reprodução",
+            "resume": "retomar música",
+            "search": {
+                "title": "pesquisa",
+                "desc": "pesquisar música no youtube"
+            },
+            "server": "mostrar informações do servidor",
+            "shuffle": "embaralhar a lista de reprodução",
+            "skip": "pular música atual",
+            "stop": "parar de tocar música",
+            "up": "mostrar playlist do usuário"
+        }
+    },
     "join": {
         "channel": "Você precisa entrar em um canal de voz primeiro!",
         "permission": "Não foi possível conectar no canal de voz, faltando permissão!"
