@@ -50,7 +50,7 @@
         },
         "added": "has been added to the queue by",
         "playing": "is playing now, requested by",
-        "error": "Could not join the channel: "
+        "error": "Could not join the channel:"
     },
     "playing": {
         "stopped": "There is nothing playing."
@@ -64,7 +64,7 @@
         },
         "added": "has been added to the queue by",
         "playing": "is playing now, requested by",
-        "error": "Could not join the channel: "
+        "error": "Could not join the channel:"
     },
     "prefix": {
         "desc": [
@@ -113,5 +113,21 @@
     "stop": {
         "queue": "There is nothing playing.",
         "stopped": "stopped the music!"
+    },
+    "userPlaylist": {
+        "desc": "to add a playlist link.",
+        "add": {
+            "title": "Enter the playlist link",
+            "desc": "enter `cancel` if you want to cancel."
+        },
+        "cancel": "Operation canceled.",
+        "change": {
+            "title": "Do you want to change playlist?",
+            "desc": "Type `yes` to change or` no` not to change."
+        },
+        "updated": "Playlist updated sucessfully.",
+        "invalid": "Invalid playlist link.",
+        "addFirst": "You need to add a playlist before",
+        "error": "Could not join the channel:"
     }
 }

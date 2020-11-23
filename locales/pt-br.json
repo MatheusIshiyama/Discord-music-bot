@@ -64,7 +64,7 @@
         },
         "added": "foi adicionado na lista de reprodução por",
         "playing": "está tocando agora, solicitado por",
-        "error": "Não foi possivel conectar ao chat de voz: "
+        "error": "Não foi possivel conectar ao chat de voz:"
     },
     "prefix": {
         "desc": [
@@ -113,5 +113,21 @@
     "stop": {
         "queue": "Não há nada tocando.",
         "stopped": "parou a música!"
+    },
+    "userPlaylist": {
+        "desc": "para adicionar um link de uma playlist.",
+        "add": {
+            "title": "Digite o link da playlist",
+            "desc": "digite `cancel` se quiser cancelar."
+        },
+        "cancel": "Operação cancelada.",
+        "change": {
+            "title": "Deseja alterar playlist?",
+            "desc": "Digite `yes` para alterar ou `no` para não alterar."
+        },
+        "updated": "Playlist atualizada com sucesso.",
+        "invalid": "Link de playlist invalido.",
+        "addFirst": "Você precisa adicionar uma playlist antes",
+        "error": "Não foi possivel conectar ao chat de voz:"
     }
 }
