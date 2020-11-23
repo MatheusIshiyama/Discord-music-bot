@@ -33,7 +33,10 @@
             "prefix": "change server's prefix",
             "queue": "show queue",
             "resume": "resume music",
-            "search": "search music on youtube",
+            "search": {
+                "title": "search",
+                "desc": "search music on youtube"
+            },
             "server": "show server's information",
             "shuffle": "shuffle the queue",
             "skip": "skip current music",
