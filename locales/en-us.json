@@ -101,5 +101,9 @@
             "title": "Server playlists",
             "desc": "The server doesn't have any playlists yet."
         }
+    },
+    "shuffle": {
+        "queue": "There is nothing playing.",
+        "shuffled": "shuffled the queue."
     }
 }

@@ -101,5 +101,9 @@
             "title": "Playlists do servidor",
             "desc": "O servidor ainda não possui playlists."
         }
+    },
+    "shuffle": {
+        "queue": "Não há nada tocando.",
+        "shuffled": "aleatorizou a lista de reprodução."
     }
 }
