@@ -1,12 +1,6 @@
 const userModel = require("../models/user");
 const guildModel = require("../models/guild");
 const { MessageEmbed } = require("discord.js");
-try {
-    const config = require("../config.json");
-    prefix = config.prefix;
-} catch (error) {
-    prefix = process.env.PREFIX;
-}
 
 exports.run = async (bot, message, args) => {
     const userReq = await userModel.findOne({ id: message.author.id });
