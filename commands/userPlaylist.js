@@ -226,6 +226,40 @@ exports.run = async (bot, message, args) => {
             }
         }
     } else if (args == "remove") {
+        if(!userReq.playlist.url) {
+            messageEmbed.setDescription(`${userPlaylist.needed}, use \`${prefix}up add\``);
+            return message.channel.send(messageEmbed);
+        }
+        messageEmbed.setTitle(userPlaylist.confirm.title).setDescription(userPlaylist.confirm.desc);
+        const embed = await message.channel.send(messageEmbed);
+        function filter(msg) {
+            return (
+                (msg.content.includes("confirm") ||
+                    msg.content.includes("cancel")) &&
+                user === msg.author.id
+            );
+        }
+        message.channel.ativeCollector = true;
+        const response = await message.channel.awaitMessages(filter, {
+            max: 1,
+            time: 30000,
+            errors: ["time"],
+        });
+        message.channel.activeCollector = false;
+        embed.delete();
+        let content;
+        response.map((msg) => {
+            content = msg.content;
+        });
+
+        if (content === "confirm") {
+            await userModel.findOneAndUpdate({ id: message.author.id }, { playlist: { title: null, url: null, thumbnail: null } });
+            messageEmbed.setTitle("User playlist").setDescription(userPlaylist.confirm.done);
+            return message.channel.send(messageEmbed);
+        } else if (content === "cancel") {
+            messageEmbed.setTitle("User playlist").setDescription(userPlaylist.cancel);
+            return message.channel.send(messageEmbed);
+        }
     }
 };
 
