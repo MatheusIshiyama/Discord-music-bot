@@ -1,35 +1,27 @@
-const messages = require("../include/messages");
+const userModel = require('../models/user');
 const guildModel = require('../models/guild');
+const { MessageEmbed } = require('discord.js');
 
 exports.run = async (bot, message, args) => {
-    const server = await guildModel.findOne({ serverId: message.guild.id });
-    message.channel.send({
-        embed: {
-            color: 3447003,
-            title: "Server",
-            thumbnail: {
-                url:
-                `${message.guild.iconURL() ?  message.guild.iconURL() : "https://cdn.discordapp.com/app-icons/690359745420591415/8ca3f1829ce42cc9935bd562c3ead3f9.png"}`,
-            },
-            description: `Informações do servidor`,
-            fields: [
-                {
-                    name: `Servidor: \`${server.serverName}\``,
-                    value: `prefix do servidor \`${server.prefix}\``,
-                },
-                {
-                    name: "Playlists do servidor",
-                    value: `${server.playlists ? server.playlists[0] : "O servidor ainda não possui playlists"}`
-                }
-            ],
-            timestamp: new Date(),
-            footer: {
-                text: "by Bravanzin",
-                icon_url:
-                    "https://cdn.discordapp.com/app-icons/690359745420591415/8ca3f1829ce42cc9935bd562c3ead3f9.png",
-            },
-        },
-    });
+    const userReq = await userModel.findOne({ id: message.author.id });
+    const guildReq = await guildModel.findOne({ serverId: message.guild.id });
+    const { server } = require(`../locales/${userReq.locale}.json`);
+
+    const msg = new MessageEmbed()
+        .setTitle("Server")
+        .setDescription(server.desc)
+        .setColor("3498DB")
+        .setThumbnail(
+            message.guild.iconURL() ?  message.guild.iconURL() : "https://cdn.discordapp.com/app-icons/688571869275881503/b5bfeb52ddae6f9492925772a59e1f8d.png?size=512"
+        )
+        .addFields(
+            { name: `${server.server} \`${guildReq.serverName}\``, value: `${server.prefix} \`${guildReq.prefix}\`` },
+            { name: `${server.playlists.title}`, value: guildReq.playlists ? guildReq.playlists : server.playlists.desc }
+            )
+        .setTimestamp(new Date())
+        .setFooter("by Bravanzin", "https://cdn.discordapp.com/app-icons/688571869275881503/b5bfeb52ddae6f9492925772a59e1f8d.png?size=512");
+    
+    message.channel.send(msg);
 }
 
 exports.info = {
