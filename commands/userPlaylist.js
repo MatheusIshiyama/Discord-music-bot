@@ -1,11 +1,10 @@
 const userModel = require("../models/user");
 const guildModel = require("../models/guild");
 const YouTube = require("simple-youtube-api");
+const messageEmbed = require('../include/messageEmbed');
 const ytdl = require("ytdl-core");
 const { MessageEmbed } = require("discord.js");
-const { embedReply } = require("../include/messages");
 const { play } = require("../include/play");
-const { Playlist } = require("simple-youtube-api");
 
 try {
     const config = require("../config.json");
@@ -16,43 +15,58 @@ try {
 const youtube = new YouTube(youtubeKey);
 
 exports.run = async (bot, message, args) => {
+    const userReq = await userModel.findOne({ id: message.author.id });
+    const guildReq = await guildModel.findOne({ serverId: message.guild.id });
+    const { userPlaylist } = require(`../locales/${userReq.locale}.json`);
+
+    const prefix = guildReq.prefix;
     const user = message.author.id;
     const { channel } = message.member.voice;
     const serverQueue = message.client.queue.get(message.guild.id);
-    const userReq = await userModel.findOne({ id: message.author.id });
-    const guildReq = await guildModel.findOne({ serverId: message.guild.id });
 
-    let replyEmbed = new MessageEmbed()
-        .setTitle(`User Playlist`)
-        .setColor("3498DB");
+    const replyEmbed = new MessageEmbed()
+        .setTitle("User Playlist")
+        .setColor("3498DB")
+        .setThumbnail(
+            "https://cdn.discordapp.com/app-icons/688571869275881503/b5bfeb52ddae6f9492925772a59e1f8d.png?size=512"
+        )
+        .setTimestamp(new Date())
+        .setFooter("by Bravanzin", bot.user.avatarURL());
 
-    let playlistEmbed = new MessageEmbed()
-        .setTitle(`User Playlist`)
-        .setColor("3498DB");
+    const playlistEmbed = new MessageEmbed()
+        .setTitle("User Playlist")
+        .setColor("3498DB")
+        .setTimestamp(new Date())
+        .setFooter("by Bravanzin", bot.user.avatarURL());
 
-    let editPlaylist = new MessageEmbed()
-        .setTitle(`User Playlist`)
-        .setColor("3498DB");
+    const editPlaylist = new MessageEmbed()
+        .setTitle("User Playlist")
+        .setColor("3498DB")
+        .setThumbnail(
+            "https://cdn.discordapp.com/app-icons/688571869275881503/b5bfeb52ddae6f9492925772a59e1f8d.png?size=512"
+        )
+        .setTimestamp(new Date())
+        .setFooter("by Bravanzin", bot.user.avatarURL());
+
+    messageEmbed.setTitle("User Playlist");
 
     if (!args) {
         if (!userReq.playlist) {
-            return embedReply(
-                "User Playlist",
-                `use \`${guildReq.prefix}up add\`, para adicionar um link de uma playlist`,
-                message
-            );
+            messageEmbed.setDescription(`use \`${guildReq.prefix}up add\`, ${userPlaylist.desc}`);
+            return message.channel.send(messageEmbed);
         } else {
+            if(userReq.locale === "pt-br") {
+                playlistEmbed.setDescription(`Playlist de ${userReq.name}`);
+            } else {
+                playlistEmbed.setDescription(`${userReq.name}'s playlist`);
+            }
             playlistEmbed
-                .setDescription(`Playlist de ${userReq.name}`)
                 .addField(userReq.playlist.title, userReq.playlist.url)
                 .setThumbnail(userReq.playlist.thumbnail);
             return message.channel.send(playlistEmbed);
         }
     } else if (args == "add") {
-        replyEmbed.addField(
-            "Digite o link da playlist",
-            "digite `cancel` se quiser cancelar."
-        );
+        replyEmbed.addField(userPlaylist.add.title, userPlaylist.add.desc);
         const reply = await message.channel.send(replyEmbed);
         function filter(msg) {
             return (
@@ -74,7 +88,8 @@ exports.run = async (bot, message, args) => {
             content = msg.content;
         });
         if (content == "cancel") {
-            embedReply("User Playlist", "Operação cancelada", message);
+            messageEmbed.setDescription(userPlaylist.cancel);
+            return message.channel.send(messageEmbed);
         } else {
             const playlist = await youtube.getPlaylist(content);
             try {
@@ -94,13 +109,14 @@ exports.run = async (bot, message, args) => {
                         .setThumbnail(playlist.thumbnails.medium.url);
                     message.channel.send(playlistEmbed);
                 } else {
+                    if(userReq.locale === "pt-br") {
+                        editPlaylist.setDescription(`Playlist atual de ${userReq.name}`);
+                    } else {
+                        editPlaylist.setDescription(`${userReq.name}'s current playlist`);
+                    }
                     editPlaylist
-                        .setDescription(`Playlist atual de ${userReq.name}`)
                         .addField(userReq.playlist.title, userReq.playlist.url)
-                        .addField(
-                            "Deseja alterar playlist?",
-                            "Digite `yes` para alterar ou `no` para não alterar."
-                        )
+                        .addField(userPlaylist.change.title, userPlaylist.change.desc)
                         .setThumbnail(userReq.playlist.thumbnail);
                     const edit = await message.channel.send(editPlaylist);
 
@@ -138,30 +154,24 @@ exports.run = async (bot, message, args) => {
                             }
                         );
                         playlistEmbed
-                            .setDescription("Playlist atualizada com sucesso")
+                            .setDescription(userPlaylist.updated)
                             .addField(playlist.title, playlist.url)
                             .setThumbnail(playlist.thumbnails.medium.url);
                         message.channel.send(playlistEmbed);
                     } else {
-                        embedReply("User Playlist", "Operação cancelada", message);
+                        messageEmbed.setDescription(userPlaylist.cancel);
+                        return message.channel.send(messageEmbed);
                     }
                 }
             } catch (error) {
-                console.log(error);
-                embedReply(
-                    "User Playlist",
-                    `Link de playlist invalido`,
-                    message
-                );
+                messageEmbed.setDescription(userPlaylist.invalid);
+                return message.channel.send(messageEmbed);
             }
         }
     } else if (args == "play") {
         if (!userReq.playlist) {
-            return embedReply(
-                "User Playlist",
-                `use \`${guildReq.prefix}up add\`, para adicionar um link de uma playlist`,
-                message
-            );
+            messageEmbed.setDescription(`${userPlaylist.addFirst}, use \`${prefix}up add\``);
+            return message.channel.send(messageEmbed);
         } else {
             const queueConstruct = {
                 textChannel: message.channel,
@@ -211,15 +221,11 @@ exports.run = async (bot, message, args) => {
                 console.error(error);
                 message.client.queue.delete(message.guild.id);
                 await channel.leave();
-                return embedSend(
-                    "User playlist",
-                    `Não foi possivel conectar ao chat de voz: ${error}`,
-                    message
-                );
+                messageEmbed.setDescription(userPlaylist.error + error);
+                return message.channel.send(messageEmbed);
             }
         }
     } else if (args == "remove") {
-        return embedReply("User Playlist", args, message);
     }
 };
 
