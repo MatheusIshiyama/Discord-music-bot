@@ -4,7 +4,7 @@ const fs = require("fs");
 const help = require("./commands/help");
 const guildModel = require('./models/guild');
 const userModel = require('./models/user');
-const { embedSend } = require('./include/messages');
+const messageEmbed = require('./include/messageEmbed');
 const { guildRegister, guildRemove, guildUpdate, user } = require('./include/register');
 const { countUpdate } = require('./include/memberUpdate');
 try {
@@ -77,22 +77,27 @@ setInterval(botPresence, 7000);
 bot.on("message", async (message) => {
     if (message.author.bot) return;
     if (message.channel.type === "dm") {
-        if (message.content == "help" || message.content == "Help") {
+        if (message.content === "help" || message.content === "Help") {
             return help.run(bot, message);
         } else {
-            return embedSend(
-                "Info",
-                'Digite "help" para obter informações',
-                message
-            );
+            const userReq = await userModel.findOne({ id: message.author.id });
+            const { app } = require(`./locales/${userReq.locale}.json`);
+            messageEmbed.setTitle("Info").setDescription(app.help);
+            return message.channel.send(messageEmbed);
         }
     }
     if (!message.guild) return;
 
-    let server = await guildModel.findOne({ serverId: message.guild.id });
+    const server = await guildModel.findOne({ serverId: message.guild.id });
     prefix = server.prefix;
 
-    if (!message.content.startsWith(prefix)) return;
+    if (!message.content.startsWith(prefix)) {
+        if(message.content === ";help") {
+            return bot.commands.get("help").run(bot, message);
+        } else {
+            return;
+        }
+    } 
     
     await guildUpdate(message.guild);
     await user(message.author);
