@@ -51,7 +51,7 @@ exports.run = async (bot, message, args) => {
     messageEmbed.setTitle("User Playlist");
 
     if (!args) {
-        if (!userReq.playlist) {
+        if (!userReq.playlist.url) {
             messageEmbed.setDescription(`use \`${guildReq.prefix}up add\`, ${userPlaylist.desc}`);
             return message.channel.send(messageEmbed);
         } else {
@@ -93,7 +93,7 @@ exports.run = async (bot, message, args) => {
         } else {
             const playlist = await youtube.getPlaylist(content);
             try {
-                if (userReq.playlist.url === null) {
+                if (!userReq.playlist.url) {
                     await userModel.findOneAndUpdate(
                         { id: message.author.id },
                         {
@@ -169,7 +169,7 @@ exports.run = async (bot, message, args) => {
             }
         }
     } else if (args == "play") {
-        if (!userReq.playlist) {
+        if (!userReq.playlist.url) {
             messageEmbed.setDescription(`${userPlaylist.addFirst}, use \`${prefix}up add\``);
             return message.channel.send(messageEmbed);
         } else {
@@ -187,7 +187,7 @@ exports.run = async (bot, message, args) => {
                 songs = null;
 
             try {
-                playlistInfo = await youtube.getPlaylist(userReq.playlist);
+                playlistInfo = await youtube.getPlaylist(userReq.playlist.url);
                 songs = await playlistInfo.getVideos();
                 songs.forEach((song) => {
                     if (ytdl.validateURL(song.url)) {
