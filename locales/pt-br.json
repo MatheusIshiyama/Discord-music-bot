@@ -128,6 +128,12 @@
         "updated": "Playlist atualizada com sucesso.",
         "invalid": "Link de playlist invalido.",
         "addFirst": "Você precisa adicionar uma playlist antes",
-        "error": "Não foi possivel conectar ao chat de voz:"
+        "error": "Não foi possivel conectar ao chat de voz:",
+        "needed": "Você precisa ter uma playlist antes para remover",
+        "confirm": { 
+            "title": "Deseja remover playlist?",
+            "desc":"Digite `confirm` para remover ou `cancel` para cancelar.",
+            "done": "Playlist removida com sucesso."
+        }
     }
 }

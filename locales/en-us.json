@@ -128,6 +128,12 @@
         "updated": "Playlist updated sucessfully.",
         "invalid": "Invalid playlist link.",
         "addFirst": "You need to add a playlist before",
-        "error": "Could not join the channel:"
+        "error": "Could not join the channel:",
+        "needed": "You need to have a playlist before to remove",
+        "confirm": {
+            "title": "Do you want to remove playlist?",
+            "desc": "Enter `confirm`, to remove or `cancel` to cancel.",
+            "done": "Playlist removed sucessfully."
+        }
     }
 }
