@@ -78,7 +78,11 @@ bot.on("message", async (message) => {
     if (message.author.bot) return;
     if (message.channel.type === "dm") {
         if (message.content === "help" || message.content === "Help") {
-            return help.run(bot, message);
+            const help = await help.run(bot, message);
+            function deleteMessage() {
+                help.delete()
+            }
+            setTimeout(deleteMessage, 3000);
         } else {
             const userReq = await userModel.findOne({ id: message.author.id });
             const { app } = require(`./locales/${userReq.locale}.json`);
