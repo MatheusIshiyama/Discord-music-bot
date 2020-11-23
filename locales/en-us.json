@@ -92,5 +92,14 @@
     "search": {
         "title": "Enter the number of the song you want to play (ex. 1)",
         "desc": "Results for:"
+    },
+    "server": {
+        "desc": "Server informations",
+        "server": "Server:",
+        "prefix": "Server prefix",
+        "playlists": {
+            "title": "Server playlists",
+            "desc": "The server doesn't have any playlists yet."
+        }
     }
 }
