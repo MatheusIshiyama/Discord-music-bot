@@ -1,4 +1,7 @@
 {
+    "app": {
+        "help": "Enter \"help\" for more informations."
+    },
     "clear": {
         "stopped": "There is nothing playing.",
         "clear": " cleared the queue."

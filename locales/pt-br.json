@@ -1,4 +1,7 @@
 {
+    "app": {
+        "help": "Digite \"help\" para mais informações."
+    },
     "clear": {
         "stopped": "Não há nada tocando.",
         "clear": " limpou a lista de reprodução."
