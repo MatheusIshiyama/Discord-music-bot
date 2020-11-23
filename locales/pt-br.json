@@ -105,5 +105,9 @@
     "shuffle": {
         "queue": "Não há nada tocando.",
         "shuffled": "embaralhou a lista de reprodução."
+    },
+    "skip": {
+        "queue": "Não estou tocando nada para que eu possa pular para você.",
+        "skipped": "pulou a música."
     }
 }
