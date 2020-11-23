@@ -109,5 +109,9 @@
     "skip": {
         "queue": "Não estou tocando nada para que eu possa pular para você.",
         "skipped": "pulou a música."
+    },
+    "stop": {
+        "queue": "Não há nada tocando.",
+        "stopped": "parou a música!"
     }
 }
