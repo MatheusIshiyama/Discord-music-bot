@@ -121,7 +121,7 @@ exports.run = async (bot, message, args) => {
             "by Bravanzin",
             "https://cdn.discordapp.com/app-icons/688571869275881503/b5bfeb52ddae6f9492925772a59e1f8d.png?size=512"
         );
-    message.channel.send(msg);
+    return message.channel.send(msg);
 };
 
 exports.info = {
