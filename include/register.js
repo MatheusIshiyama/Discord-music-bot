@@ -8,6 +8,7 @@ module.exports = {
             const guildInfo = new guildModel({
                 id: guild.id,
                 name: guild.name,
+                locale: "en-us",
                 prefix: ";",
                 playlists: null,
                 mcountId: null,
