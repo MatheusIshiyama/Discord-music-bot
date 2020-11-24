@@ -12,10 +12,8 @@ const Guild = Schema({
         }
     ],
     mcountId: String,
-    dynamic: {
-        id: String,
-        texts: Array
-    }
+    dynamicId: String,
+    dynamicTexts: Array
 })
 
 module.exports = model('Guild', Guild)
