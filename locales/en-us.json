@@ -76,7 +76,8 @@
             "desc": "Type `cancel` to cancel."
         },
         "canceled": "Operation canceled.",
-        "invalid": "Channel chosen doesn't exist, try again."
+        "invalid": "Channel chosen doesn't exist, try again.",
+        "chosen": "Chosen channel"
     },
     "pause": {
         "stopped": "There is nothing playing.",

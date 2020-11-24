@@ -76,7 +76,8 @@
             "desc": "Digite `cancel` para cancelar."
         },
         "canceled": "Operação cancelada.",
-        "invalid": "Canal escolhido não existe, tente novamente."
+        "invalid": "Canal escolhido não existe, tente novamente.",
+        "chosen": "Canal escolhido"
     },
     "pause": {
         "stopped": "Não há nada tocando.",
