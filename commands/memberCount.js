@@ -67,7 +67,7 @@ exports.run = async (bot, message, args) => {
     );
 
     if (voiceChannel != null) {
-        message.channel.send(`Canal escolhido \`${content}\``);
+        message.channel.send(`${memberCount.chosen} \`${content}\``);
         await guildModel.findOneAndUpdate(
             { id: message.guild.id },
             { mcountId: voiceChannel.id }
