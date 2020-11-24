@@ -13,7 +13,7 @@ module.exports = {
                 playlists: null,
                 mcountId: null,
                 dynamicId: null,
-                dynamicTexts: null
+                dynamicTexts: Array
             });
             await guildInfo.save();
             console.log(`O bot entrou no servidor "${guild.name}"`);
