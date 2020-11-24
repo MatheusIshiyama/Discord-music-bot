@@ -12,10 +12,8 @@ module.exports = {
                 prefix: ";",
                 playlists: null,
                 mcountId: null,
-                dynamic: {
-                    id: null,
-                    texts: null
-                }
+                dynamicId: null,
+                dynamicTexts: null
             });
             await guildInfo.save();
             console.log(`O bot entrou no servidor "${guild.name}"`);
