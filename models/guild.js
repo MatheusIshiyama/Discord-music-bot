@@ -3,6 +3,7 @@ const { Schema, model } = require('mongoose');
 const Guild = Schema({
     id: String,
     name: String,
+    locale: String,
     prefix: String,
     playlists: [
         {
