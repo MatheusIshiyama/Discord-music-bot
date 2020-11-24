@@ -3,14 +3,18 @@ const userModel = require("../models/user");
 
 module.exports = {
     async guildRegister(guild) {
-        const req = await guildModel.findOne({ serverId: guild.id });
+        const req = await guildModel.findOne({ id: guild.id });
         if (!req) {
             const guildInfo = new guildModel({
-                serverId: guild.id,
-                serverName: guild.name,
+                id: guild.id,
+                name: guild.name,
                 prefix: ";",
                 playlists: null,
-                memberCountId: null,
+                mcountId: null,
+                dynamic: {
+                    id: null,
+                    texts: null
+                }
             });
             await guildInfo.save();
             console.log(`O bot entrou no servidor "${guild.name}"`);
@@ -18,23 +22,23 @@ module.exports = {
     },
 
     async guildRemove(guild) {
-        const req = await guildModel.findOne({ serverId: guild.id });
+        const req = await guildModel.findOne({ id: guild.id });
         if (req) {
-            req.deleteOne({ serverId: `${guild.id}` });
+            req.deleteOne({ id: `${guild.id}` });
             console.log(`O bot saiu do servidor "${guild.name}"`);
         }
     },
 
     async guildUpdate(guild) {
-        const req = await guildModel.findOne({ serverId: guild.id });
+        const req = await guildModel.findOne({ id: guild.id });
         if (req) {
             if (req.serverName != guild.name) {
                 console.log(
                     `Servidor "${req.serverName}" atualizou o nome para "${guild.name}"`
                 );
                 await guildModel.findOneAndUpdate(
-                    { serverId: guild.id },
-                    { serverName: guild.name }
+                    { id: guild.id },
+                    { name: guild.name }
                 );
             }
         }
