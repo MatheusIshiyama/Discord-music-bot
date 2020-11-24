@@ -1,6 +1,7 @@
 {
     "app": {
-        "help": "Digite \"help\" para mais informações."
+        "help": "Digite \"help\" para mais informações.",
+        "mcount": "usuários"
     },
     "clear": {
         "stopped": "Não há nada tocando.",

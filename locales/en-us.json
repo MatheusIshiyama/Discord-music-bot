@@ -1,6 +1,7 @@
 {
     "app": {
-        "help": "Enter \"help\" for more informations."
+        "help": "Enter \"help\" for more informations.",
+        "mcount": "users"
     },
     "clear": {
         "stopped": "There is nothing playing.",
