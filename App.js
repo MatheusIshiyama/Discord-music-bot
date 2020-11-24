@@ -1,7 +1,6 @@
 const Discord = require("discord.js");
 const mongoose = require("mongoose");
 const fs = require("fs");
-const help = require("./commands/help");
 const guildModel = require('./models/guild');
 const userModel = require('./models/user');
 const messageEmbed = require('./include/messageEmbed');
@@ -92,7 +91,7 @@ bot.on("message", async (message) => {
     }
     if (!message.guild) return;
 
-    const server = await guildModel.findOne({ serverId: message.guild.id });
+    const server = await guildModel.findOne({ id: message.guild.id });
     prefix = server.prefix;
 
     if (!message.content.startsWith(prefix)) {
