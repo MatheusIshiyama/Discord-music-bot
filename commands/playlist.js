@@ -14,7 +14,7 @@ const youtube = new Youtube(youtubeKey);
 
 exports.run = async (bot, message, args) => {
     const userReq = await userModel.findOne({ id: message.author.id });
-    const guildReq = await guildModel.findOne({ serverId: message.guild.id });
+    const guildReq = await guildModel.findOne({ id: message.guild.id });
     const { playlist } = require(`../locales/${userReq.locale}.json`);
     const prefix = guildReq.prefix;
 

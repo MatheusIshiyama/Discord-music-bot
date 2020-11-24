@@ -13,7 +13,7 @@ const youtube = new Youtube(youtubeKey);
 
 exports.run = async (bot, message, args) => {
     const userReq = userModel.findOne({ id: message.author.id });
-    const guildReq = guildModel.findOne({ serverId: message.guild.id });
+    const guildReq = guildModel.findOne({ id: message.guild.id });
     const prefix = guildReq.prefix;
     const { search } = require(`../locales/${userReq}.json`);
 

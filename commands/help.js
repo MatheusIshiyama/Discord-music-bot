@@ -6,7 +6,7 @@ exports.run = async (bot, message, args) => {
     const userReq = await userModel.findOne({ id: message.author.id });
     let prefix;
     try {
-        const guildReq = await guildModel.findOne({ serverId: message.guild.id });
+        const guildReq = await guildModel.findOne({ id: message.guild.id });
         prefix = guildReq.prefix;
     } catch (error) {
         prefix = ";"
