@@ -32,7 +32,7 @@ module.exports = {
     async guildUpdate(guild) {
         const req = await guildModel.findOne({ id: guild.id });
         if (req) {
-            if (req.serverName != guild.name) {
+            if (req.name != guild.name) {
                 console.log(
                     `Servidor "${req.serverName}" atualizou o nome para "${guild.name}"`
                 );
