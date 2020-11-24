@@ -11,7 +11,7 @@ const Guild = Schema({
         }
     ],
     mcountId: String,
-    dynamicId: {
+    dynamic: {
         id: String,
         texts: Array
     }
