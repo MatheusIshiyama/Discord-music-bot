@@ -1,11 +1,20 @@
 const { Schema, model } = require('mongoose');
 
 const Guild = Schema({
-    serverId: String,
-    serverName: String,
+    id: String,
+    name: String,
     prefix: String,
-    playlists: Array,
-    memberCountId: String
+    playlists: [
+        {
+            title: String,
+            url: String
+        }
+    ],
+    mcountId: String,
+    dynamicId: {
+        id: String,
+        texts: Array
+    }
 })
 
 module.exports = model('Guild', Guild)
