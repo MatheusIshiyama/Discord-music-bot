@@ -69,8 +69,8 @@ exports.run = async (bot, message, args) => {
     if (voiceChannel != null) {
         message.channel.send(`Canal escolhido \`${content}\``);
         await guildModel.findOneAndUpdate(
-            { serverId: message.guild.id },
-            { memberCountId: voiceChannel.id }
+            { id: message.guild.id },
+            { mcountId: voiceChannel.id }
         );
     } else {
         invalidEmbed.setDescription(memberCount.invalid);
