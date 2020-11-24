@@ -70,7 +70,8 @@ exports.run = async (bot, message, args) => {
         message.channel.send(`${memberCount.chosen} \`${content}\``);
         await guildModel.findOneAndUpdate(
             { id: message.guild.id },
-            { mcountId: voiceChannel.id }
+            { locale: userReq.locale,
+                mcountId: voiceChannel.id }
         );
     } else {
         invalidEmbed.setDescription(memberCount.invalid);
