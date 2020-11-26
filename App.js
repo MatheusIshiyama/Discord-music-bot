@@ -57,9 +57,9 @@ bot.on("guildMemberRemove", user => {
 })
 
 bot.on("channelDelete", async channel => {
-    const guild = await guildModel.findOne({ serverId: channel.guild.id });
+    const guild = await guildModel.findOne({ id: channel.guild.id });
     if(guild.memberCountId === channel.id) {
-        await guildModel.findOneAndUpdate({ serverId: channel.guild.id }, { memberCountId: null });
+        await guildModel.findOneAndUpdate({ id: channel.guild.id }, { mcountId: null });
     }
 })
 
