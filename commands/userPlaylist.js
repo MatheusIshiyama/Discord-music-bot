@@ -5,13 +5,8 @@ const messageEmbed = require('../include/messageEmbed');
 const ytdl = require("ytdl-core");
 const { MessageEmbed } = require("discord.js");
 const { play } = require("../include/play");
+const { youtubeKey } = require('../util/BravanzinUtil');
 
-try {
-    const config = require("../config.json");
-    youtubeKey = config.youtubeKey;
-} catch (error) {
-    youtubeKey = process.env.YOUTUBE_KEY;
-}
 const youtube = new YouTube(youtubeKey);
 
 exports.run = async (bot, message, args) => {
