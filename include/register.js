@@ -59,16 +59,11 @@ module.exports = {
                     title: null,
                     url: null,
                     thumbnail: null,
-                },
-                toDo: null,
+                }
             });
             await userInfo.save();
-            console.log(`${user.username} se registrou`);
         } else {
             if (req.name != user.username) {
-                console.log(
-                    `Usuário: ${req.name} atualizou o nome para ${user.username}`
-                );
                 await userModel.findOneAndUpdate(
                     { id: user.id },
                     { name: user.username }
