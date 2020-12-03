@@ -1,30 +1,27 @@
-const ytdlDiscord = require("ytdl-core-discord");
+const ytdl = require("ytdl-core");
 
 module.exports = {
     async play(song, message) {
         const queue = message.client.queue.get(message.guild.id);
+        const { include } = require(`../locales/${queue.locale}.json`);
 
         if (!song) {
             queue.channel.leave();
             message.client.queue.delete(message.guild.id);
-            return queue.textChannel.send("🚫 A fila de musicas acabou.");
+            return queue.textChannel.send(include.play);
         }
 
         let stream = null;
-        let streamType = "opus";
 
         try {
-            stream = await ytdlDiscord(song.url, { highWaterMark: 1 << 25 });
+            stream = await ytdl(song.url);
         } catch (error) {
             if (queue) {
                 queue.songs.shift();
                 module.exports.play(queue.songs[0], message);
             }
 
-            console.error(error);
-            return message.channel.send(
-                `Error: ${error.message ? error.message : error}`
-            );
+            return console.error(error);
         }
 
         queue.connection.on("disconnect", () =>
@@ -32,7 +29,7 @@ module.exports = {
         );
 
         const dispatcher = queue.connection
-            .play(stream, { type: streamType })
+            .play(stream)
             .on("finish", () => {
                 if (queue.loop) {
                     //* se o "loop" estiver on, a musica vai voltar para o final da fila, assim repetindo infinitamente
