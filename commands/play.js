@@ -6,7 +6,7 @@ const { play } = require("../include/play");
 
 exports.run = async (bot, message, args) => {
     const userReq = await userModel.findOne({ id: message.author.id });
-    const guildReq = await guildModel.findOne({ serverId: message.guild.id });
+    const guildReq = await guildModel.findOne({ id: message.guild.id });
     const localePlay = require(`../locales/${userReq.locale}.json`);
     const prefix = guildReq.prefix;
     const locale = localePlay.play;
@@ -49,6 +49,7 @@ exports.run = async (bot, message, args) => {
         textChannel: message.channel,
         channel,
         connection: null,
+        locale: userReq.locale,
         songs: [],
         loop: false,
         volume: 100,
