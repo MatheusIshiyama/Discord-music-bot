@@ -4,7 +4,7 @@
         "mcount": "usuários"
     },
     "include": {
-        "play": "A reprodução acabou."
+        "play": "A lista de reprodução acabou."
     },
     "clear": {
         "stopped": "Não há nada tocando.",
