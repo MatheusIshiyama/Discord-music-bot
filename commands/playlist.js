@@ -4,12 +4,8 @@ const guildModel = require('../models/guild');
 const messageEmbed = require('../include/messageEmbed');
 const ytdl = require("ytdl-core");
 const { play } = require("../include/play");
-try {
-    const config = require("../config.json");
-    youtubeKey = config.youtubeKey
-} catch (error) {
-    youtubeKey = process.env.YOUTUBE_KEY
-}
+const { youtubeKey } = require('../util/BravanzinUtil');
+
 const youtube = new Youtube(youtubeKey);
 
 exports.run = async (bot, message, args) => {
