@@ -4,16 +4,9 @@ const fs = require("fs");
 const guildModel = require('./models/guild');
 const userModel = require('./models/user');
 const messageEmbed = require('./include/messageEmbed');
-const { guildRegister, guildRemove, guildUpdate, user } = require('./include/register');
+const { discordToken, mongoUri } = require('./util/BravanzinUtil');
 const { countUpdate } = require('./include/memberUpdate');
-try {
-    const config = require("./config.json");
-    discordKey = config.discordKey;
-    mongoKey = config.mongoKey;
-} catch (error) {
-    discordKey = process.env.DISCORD;
-    mongoKey = process.env.MONGODB;
-}
+const { guildRegister, guildRemove, guildUpdate, user } = require('./include/register');
 
 let presence = false;
 const bot = new Discord.Client();
@@ -122,8 +115,8 @@ bot.on("message", async (message) => {
     }
 });
 
-bot.login(discordKey);
+bot.login(discordToken);
 mongoose
-    .connect(mongoKey, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false })
+    .connect(mongoUri, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false })
     .then(console.log("[MongoDB] conectado ao mongo"))
     .catch((err) => console.log(err));
