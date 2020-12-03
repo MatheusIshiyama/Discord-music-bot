@@ -1,14 +1,18 @@
 const ytdl = require("ytdl-core");
+const messageEmbed = require('../include/messageEmbed');
 
 module.exports = {
     async play(song, message) {
         const queue = message.client.queue.get(message.guild.id);
         const { include } = require(`../locales/${queue.locale}.json`);
 
+        messageEmbed.setTitle("Player status");
+
         if (!song) {
             queue.channel.leave();
             message.client.queue.delete(message.guild.id);
-            return queue.textChannel.send(include.play);
+            messageEmbed.setDescription(include.play);
+            return queue.textChannel.send(messageEmbed);
         }
 
         let stream = null;
