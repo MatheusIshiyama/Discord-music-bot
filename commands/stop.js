@@ -2,7 +2,7 @@ const userModel = require('../models/user');
 const messageEmbed = require('../include/messageEmbed');
 
 exports.run = async (bot, message, args) => {
-    const userReq = userModel.findOne({ id: message.author.id });
+    const userReq = await userModel.findOne({ id: message.author.id });
     const { stop } = require(`../locales/${userReq.locale}.json`);
 
     const queue = message.client.queue.get(message.guild.id);
