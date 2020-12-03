@@ -16,7 +16,6 @@ module.exports = {
                 dynamicTexts: Array
             });
             await guildInfo.save();
-            console.log(`O bot entrou no servidor "${guild.name}"`);
         }
     },
 
@@ -24,7 +23,6 @@ module.exports = {
         const req = await guildModel.findOne({ id: guild.id });
         if (req) {
             req.deleteOne({ id: `${guild.id}` });
-            console.log(`O bot saiu do servidor "${guild.name}"`);
         }
     },
 
@@ -32,13 +30,7 @@ module.exports = {
         const req = await guildModel.findOne({ id: guild.id });
         if (req) {
             if (req.name != guild.name) {
-                console.log(
-                    `Servidor "${req.serverName}" atualizou o nome para "${guild.name}"`
-                );
-                await guildModel.findOneAndUpdate(
-                    { id: guild.id },
-                    { name: guild.name }
-                );
+                await req.updateOne({ name: guild.name });
             }
         }
     },
@@ -64,10 +56,7 @@ module.exports = {
             await userInfo.save();
         } else {
             if (req.name != user.username) {
-                await userModel.findOneAndUpdate(
-                    { id: user.id },
-                    { name: user.username }
-                );
+                await req.updateOne({ name: user.username });
             }
         }
     },
