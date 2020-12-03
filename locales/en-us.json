@@ -3,6 +3,9 @@
         "help": "Enter \"help\" for more informations.",
         "mcount": "users"
     },
+    "include": {
+        "play": "The queue ended."
+    },
     "clear": {
         "stopped": "There is nothing playing.",
         "clear": " cleared the queue."

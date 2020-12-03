@@ -3,6 +3,9 @@
         "help": "Digite \"help\" para mais informações.",
         "mcount": "usuários"
     },
+    "include": {
+        "play": "A reprodução acabou."
+    },
     "clear": {
         "stopped": "Não há nada tocando.",
         "clear": " limpou a lista de reprodução."
