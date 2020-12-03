@@ -11,9 +11,7 @@ module.exports = {
                 locale: "en-us",
                 prefix: ";",
                 playlists: null,
-                mcountId: null,
-                dynamicId: null,
-                dynamicTexts: Array
+                mcountId: null
             });
             await guildInfo.save();
         }
