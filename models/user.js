@@ -13,14 +13,7 @@ const User = Schema({
         title: String,
         url: String,
         thumbnail: String,
-    },
-    toDo: [
-        {
-            status: Boolean,
-            title: String,
-            desc: String,
-        },
-    ],
+    }
 });
 
 module.exports = model("User", User);
