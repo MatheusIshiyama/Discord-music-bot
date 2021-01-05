@@ -52,7 +52,6 @@ exports.run = async (bot, message, args) => {
         });
 
         const choice = resultsEmbed.fields[parseInt(response.first()) - 1].name;
-        console.log(choice);
         message.client.commands.get("play").run(null, message, choice);
 
         message.channel.activeCollector = false;
