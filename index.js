@@ -1,13 +1,13 @@
 const Discord = require("discord.js");
-const mongoose = require("mongoose");
 const fs = require("fs");
 const guildModel = require('./models/guild');
 const userModel = require('./models/user');
 const messageEmbed = require('./include/messageEmbed');
-const { discordToken, mongoUri } = require('./util/BravanzinUtil');
+const { discordToken } = require('./util/BravanzinUtil');
 const { countUpdate } = require('./include/memberUpdate');
 const { guildRegister, guildRemove, guildUpdate, user } = require('./include/register');
 require('./server');
+require('./database');
 
 let presence = false;
 const bot = new Discord.Client();
@@ -117,7 +117,3 @@ bot.on("message", async (message) => {
 });
 
 bot.login(discordToken);
-mongoose
-    .connect(mongoUri, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false })
-    .then(console.log("[MongoDB] conectado ao mongo"))
-    .catch((err) => console.log(err));
