@@ -3,6 +3,7 @@ const fs = require("fs");
 const guildModel = require('./models/guild');
 const userModel = require('./models/user');
 const messageEmbed = require('./include/messageEmbed');
+const { discordToken } = require('./util/BravanzinUtil');
 const { countUpdate } = require('./include/memberUpdate');
 const { guildRegister, guildRemove, guildUpdate, user } = require('./include/register');
 
@@ -113,4 +114,4 @@ bot.on("message", async (message) => {
     }
 });
 
-module.exports = bot;
+bot.login(discordToken);
