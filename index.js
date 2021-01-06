@@ -1,6 +1,5 @@
 const Discord = require("discord.js");
 const mongoose = require("mongoose");
-const express = require('express');
 const fs = require("fs");
 const guildModel = require('./models/guild');
 const userModel = require('./models/user');
@@ -8,20 +7,12 @@ const messageEmbed = require('./include/messageEmbed');
 const { discordToken, mongoUri } = require('./util/BravanzinUtil');
 const { countUpdate } = require('./include/memberUpdate');
 const { guildRegister, guildRemove, guildUpdate, user } = require('./include/register');
+require('./server');
 
 let presence = false;
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
 bot.queue = new Map();
-
-const app = express();
-app.get('/', (req, res) => {
-    const ping = new Date();
-    ping.setHours(ping.getHours() - 3);
-    console.log(`Ping recebido as ${ping.getUTCHours()}:${ping.getUTCMinutes()}:${ping.getUTCSeconds()}`);
-    res.sendStatus(200);
-});
-app.listen(process.env.PORT);
 
 //* ler comandos da pasta "commands"
 fs.readdir("./commands/", (err, files) => {
